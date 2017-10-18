@@ -3,10 +3,20 @@
 ;; installed packages.  Don't delete this line.  If you don't want it,
 ;; just comment it out by adding a semicolon to the start of the line.
 ;; You may delete these explanatory comments.
+
+;;; packages:
 (require 'package)
-(require 'cask)
-(cask-initialize)
+;; (require 'cask)
+;; (require 'cask "~/.cask/cask.el")
+;; (cask-initialize)
+;; (package-initialize)
+
+
+(when (or (require 'cask "~/.cask/cask.el" t)
+	  (require 'cask nil t))
+  (cask-initialize))
 (package-initialize)
+
 
 (global-linum-mode)
 (setq linum-format "%4d ")

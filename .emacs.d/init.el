@@ -38,7 +38,16 @@
 (setq linum-format "%4d ")
 (global-hl-line-mode)
 
+;;
+(use-package markdown-mode
+  :ensure t
+  :commands (markdown-mode gfm-mode)
+  :mode (("README\\.md\\'" . gfm-mode)
+         ("\\.md\\'" . markdown-mode)
+         ("\\.markdown\\'" . markdown-mode))
+  :init (setq markdown-command "pandoc"))
 
+;; flycheck
 (add-hook 'after-init-hook #'global-flycheck-mode)
 
 (require 'flycheck)

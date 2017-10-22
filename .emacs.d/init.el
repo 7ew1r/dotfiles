@@ -51,6 +51,8 @@
   (cask-initialize))
 (package-initialize)
 
+(require 'pallet)
+
 (require 'use-package)
 
 ;; anzu

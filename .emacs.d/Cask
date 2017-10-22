@@ -38,3 +38,5 @@
 (depends-on "volatile-highlights" :git "https://github.com/k-talo/volatile-highlights.el.git")
 (depends-on "undo-tree")
 (depends-on "lice")
+(depends-on "anzu")
+(depends-on "migemo")

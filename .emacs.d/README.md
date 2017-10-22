@@ -2,7 +2,7 @@
 ## requirments
 - [Cask](https://github.com/cask/cask)
 - [Pandoc](https://pandoc.org)
-
+- [cmigemo](https://github.com/koron/cmigemo)
 ### cask
 - macOS
 ``` shell

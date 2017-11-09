@@ -45,6 +45,10 @@
 ;;; theme:
 (load-theme 'wombat)
 
+;;; path:
+(when (memq window-system '(mac ns))
+  (exec-path-from-shell-initialize))
+
 ;;; packages:
 (when (or (require 'cask "~/.cask/cask.el" t)
 	  (require 'cask nil t))

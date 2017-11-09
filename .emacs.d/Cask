@@ -40,3 +40,4 @@
 (depends-on "lice")
 (depends-on "anzu")
 (depends-on "migemo")
+(depends-on "exec-path-from-shell")

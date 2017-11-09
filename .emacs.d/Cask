@@ -28,7 +28,6 @@
 (depends-on "s")
 (depends-on "smartparens")
 (depends-on "smex")
-(depends-on "smooth-scroll")
 (depends-on "tabbar")
 (depends-on "use-package")
 (depends-on "web-mode")

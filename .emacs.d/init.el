@@ -30,10 +30,20 @@
     (tool-bar-mode -1)
     (menu-bar-mode -1))
 
+;; フレームの透明度
+(set-frame-parameter (selected-frame) 'alpha '(0.90))
+
+;; C-Ret で矩形選択
+;; 詳しいキーバインド操作：http://dev.ariel-networks.com/articles/emacs/part5/
+(cua-mode t)
+(setq cua-enable-cua-keys nil)
+
 ;; 括弧の範囲内を強調表示
 (show-paren-mode t)
 (setq show-paren-delay 0)
 (setq show-paren-style 'mixed)
+
+
 
 ;; タイトルバーにファイルのフルパス表示
 (setq frame-title-format
@@ -45,9 +55,6 @@
 ;;; theme:
 (load-theme 'wombat)
 
-;;; path:
-(when (memq window-system '(mac ns))
-  (exec-path-from-shell-initialize))
 
 ;;; packages:
 (when (or (require 'cask "~/.cask/cask.el" t)
@@ -59,6 +66,10 @@
 
 (require 'use-package)
 
+;;; path:
+(when (memq window-system '(mac ns))
+  (exec-path-from-shell-initialize))
+
 ;; anzu
 (require 'anzu)
 (global-anzu-mode +1)
@@ -69,7 +80,6 @@
 (global-set-key (kbd "C-c r") 'anzu-query-replace)
 (global-set-key (kbd "C-c R") 'anzu-query-replace-regexp)
 
-
 ;; migemo
 (when (and (executable-find "cmigemo")
            (require 'migemo nil t))
@@ -77,7 +87,7 @@
   (setq migemo-options '("-q" "--emacs"))
 
   (setq migemo-dictionary "/usr/local/share/migemo/utf-8/migemo-dict")
-  
+
   (setq migemo-user-dictionary nil)
   (setq migemo-regex-dictionary nil)
   (setq migemo-coding-system 'utf-8-unix)
@@ -85,7 +95,10 @@
   (migemo-init)
   )
 
-
+;; expand-region
+(require 'expand-region)
+(global-set-key (kbd "C-=") 'er/expand-region)
+(global-set-key (kbd "C-M-=") 'er/contract-region)
 
 ;; powerline
 (use-package powerline)
@@ -96,6 +109,9 @@
 (global-linum-mode 1)
 (setq linum-format "%4d ")
 (global-hl-line-mode)
+
+;; 選択領域の色
+(set-face-background 'region "#aa0")
 
 ;; markdown-mode
 (use-package markdown-mode
@@ -109,10 +125,27 @@
 ;; minimap
 (require 'minimap)
 
+;; ace-jump-mode
+;; ヒント文字に使う文字を指定する
+(setq ace-jump-mode-move-keys
+      (append "asdfghjkl;:]qwertyuiop@zxcvbnm,." nil))
+;; ace-jump-word-modeのとき文字を尋ねないようにする
+(setq ace-jump-word-mode-use-query-char nil)
+(global-set-key (kbd "C-:") 'ace-jump-char-mode)
+(global-set-key (kbd "C-;") 'ace-jump-word-mode)
+(global-set-key (kbd "C-M-;") 'ace-jump-line-mode)
+
 ;; undo-tree
 (require 'undo-tree)
 (global-undo-tree-mode t)
 (global-set-key (kbd "M-/") 'undo-tree-redo)
+
+;; multiple-cursors
+(require 'multiple-cursors)
+(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
+(global-set-key (kbd "C->") 'mc/mark-next-like-this)
+(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
+(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
 
 ;; flycheck
 (add-hook 'after-init-hook #'global-flycheck-mode)
@@ -121,9 +154,6 @@
 (require 'flycheck-pos-tip)
 (with-eval-after-load 'flycheck
   (flycheck-pos-tip-mode))
-
-(with-eval-after-load 'flycheck
-  '(add-hook 'flycheck-mode-hook 'flycheck-popup-tip-mode))
 
 ;; tabbar
 (require 'tabbar)
@@ -256,11 +286,6 @@ mouse-3: delete other windows"
 (setq ac-use-menu-map t)       ;; 補完メニュー表示時にC-n/C-pで補完候補選択
 (setq ac-use-fuzzy t)          ;; 曖昧マッチ
 
-;; smooth-scroll
-(require 'smooth-scroll)
-(smooth-scroll-mode t)
-(setq smooth-scroll/vscroll-step-size 4)
-
 ;; magit
 (require 'magit)
 
@@ -323,7 +348,7 @@ mouse-3: delete other windows"
  '(minimap-window-location (quote right))
  '(package-selected-packages
    (quote
-    (flycheck-popup-tip ac-helm yasnippet web-mode use-package smex smartparens projectile prodigy popwin pallet nyan-mode multiple-cursors magit idle-highlight-mode htmlize flycheck-cask expand-region exec-path-from-shell drag-stuff))))
+    (ace-jump-mode flycheck-popup-tip ac-helm yasnippet web-mode use-package smex smartparens projectile prodigy popwin pallet nyan-mode multiple-cursors magit idle-highlight-mode htmlize flycheck-cask expand-region exec-path-from-shell drag-stuff))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

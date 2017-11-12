@@ -10,7 +10,7 @@
 
 ;; initial window size
  (setq initial-frame-alist
-          '((top . 1) (left . 1) (width . 150) (height . 80)))
+          '((top . 1) (left . 1) (width . 100) (height . 54)))
 
 ;;; Variables:
 (set-language-environment 'Japanese)

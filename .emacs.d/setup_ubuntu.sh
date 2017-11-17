@@ -1,7 +1,7 @@
 #!/bin/sh
-sudo add-apt-repository ppa:kelleyk/emacs
+yes "" | sudo add-apt-repository ppa:kelleyk/emacs
 sudo apt update
-sudo apt install -y emacs25
+sudo apt install -y curl emacs25
 
 #install cask
 curl -fsSL https://raw.githubusercontent.com/cask/cask/master/go | python

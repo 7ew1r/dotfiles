@@ -3,6 +3,7 @@
 - [Cask](https://github.com/cask/cask)
 - [Pandoc](https://pandoc.org)
 - [cmigemo](https://github.com/koron/cmigemo)
+
 ### cask
 - macOS
 ``` shell
@@ -14,8 +15,9 @@ brew install cask
 curl -fsSL https://raw.githubusercontent.com/cask/cask/master/go | python
 ```
 
+Add below to .bashrc (or ,zshrc)
 ``` .bashrc (or .zshrc)
-+ PATH="$HOME/.cask/bin:$PATH"
+export PATH="$HOME/.cask/bin:$PATH"
 ```
 
 ``` shell

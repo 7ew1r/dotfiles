@@ -66,6 +66,9 @@
 
 (require 'use-package)
 
+;;; quickrun
+(require 'quickrun)
+
 ;;; path:
 (when (memq window-system '(mac ns))
   (exec-path-from-shell-initialize))

@@ -342,6 +342,17 @@ mouse-3: delete other windows"
 
 (helm-mode 1)
 
+;; diminish
+(defmacro safe-diminish (file mode &optional new-name)
+  "https://github.com/larstvei/dot-emacs/blob/master/init.org"
+  `(with-eval-after-load ,file
+     (diminish ,mode ,new-name)))
+
+(safe-diminish "auto-complete" 'auto-complete-mode)
+(safe-diminish "helm-mode" 'helm-mode)
+(safe-diminish "undo-tree" 'undo-tree-mode)
+(safe-diminish "volatile-highlights" 'volatile-highlights-mode)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

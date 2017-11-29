@@ -43,8 +43,14 @@
 (setq show-paren-delay 0)
 (setq show-paren-style 'mixed)
 
-
-
+(add-hook 'c-mode-common-hook
+          (lambda ()
+            (c-set-style "bsd")                            ;;; (a)
+            (setq c-basic-offset 4)                        ;;; (b)
+            ;; 演算式が複数行にまたがるときのオフセット
+            (c-set-offset 'statement-cont 'c-lineup-math)  ;;; (c)
+            ;; 行末のスペースやタブに色づけして警告する。
+            (setq show-trailing-whitespace t)))            ;;; (d)
 ;; タイトルバーにファイルのフルパス表示
 (setq frame-title-format
       (format "%%f - Emacs@%s" (system-name)))
@@ -66,8 +72,14 @@
 
 (require 'use-package)
 
+;;; popwin
+(require 'popwin)
+(popwin-mode 1)
+
 ;;; quickrun
 (require 'quickrun)
+(push '("*quickrun*") popwin:special-display-config)
+
 
 ;;; path:
 (when (memq window-system '(mac ns))

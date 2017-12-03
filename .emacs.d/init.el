@@ -3,11 +3,6 @@
 ;;; Commentary:
 
 ;;; Code:
-; server start for emacs-client
-(require 'server)
-(unless (server-running-p)
-  (server-start))
-
 ;; initial window size
  (setq initial-frame-alist
           '((top . 1) (left . 1) (width . 100) (height . 54)))
@@ -80,6 +75,15 @@
 (require 'quickrun)
 (push '("*quickrun*") popwin:special-display-config)
 
+;; Add C++ command for C11 and set it default in C++ file.
+(quickrun-add-command "c++/clang++"
+                      '((:command . "clang++")
+                        (:exec . ("%c -std=c++11 -lstdc++ %o -o %e %s"
+                                     "%e %a"))
+                        (:remove . ("%e")))
+                      :default "c++")
+
+(quickrun-set-default "c++" "c++/clang++")
 
 ;;; path:
 (when (memq window-system '(mac ns))
@@ -94,6 +98,17 @@
 
 (global-set-key (kbd "C-c r") 'anzu-query-replace)
 (global-set-key (kbd "C-c R") 'anzu-query-replace-regexp)
+
+;; company
+(when (locate-library "company")
+  (global-company-mode 1)
+  (global-set-key (kbd "C-M-i") 'company-complete)
+  ;; (setq company-idle-delay nil) ; 自動補完をしない
+  (define-key company-active-map (kbd "C-n") 'company-select-next)
+  (define-key company-active-map (kbd "C-p") 'company-select-previous)
+  (define-key company-search-map (kbd "C-n") 'company-select-next)
+  (define-key company-search-map (kbd "C-p") 'company-select-previous)
+  (define-key company-active-map (kbd "<tab>") 'company-complete-selection))
 
 ;; migemo
 (when (and (executable-find "cmigemo")
@@ -169,6 +184,11 @@
 (require 'flycheck-pos-tip)
 (with-eval-after-load 'flycheck
   (flycheck-pos-tip-mode))
+
+(eval-after-load "flycheck"
+  '(progn
+     (when (locate-library "flycheck-irony")
+       (flycheck-irony-setup))))
 
 ;; tabbar
 (require 'tabbar)
@@ -291,15 +311,15 @@ mouse-3: delete other windows"
 (keyboard-translate ?\C-h ?\C-?)
 
 ;; Auto-Complete
-(require 'auto-complete-config)
-(ac-config-default)
-(add-to-list 'ac-modes 'text-mode)         ;; text-modeでも自動的に有効にする
-(add-to-list 'ac-modes 'fundamental-mode)  ;; fundamental-mode
-(add-to-list 'ac-modes 'org-mode)
-(add-to-list 'ac-modes 'yatex-mode)
-(ac-set-trigger-key "TAB")
-(setq ac-use-menu-map t)       ;; 補完メニュー表示時にC-n/C-pで補完候補選択
-(setq ac-use-fuzzy t)          ;; 曖昧マッチ
+;;(require 'auto-complete-config)
+;;(ac-config-default)
+;;(add-to-list 'ac-modes 'text-mode)         ;; text-modeでも自動的に有効にする
+;;(add-to-list 'ac-modes 'fundamental-mode)  ;; fundamental-mode
+;;(add-to-list 'ac-modes 'org-mode)
+;;(add-to-list 'ac-modes 'yatex-mode)
+;;(ac-set-trigger-key "TAB")
+;;(setq ac-use-menu-map t)       ;; 補完メニュー表示時にC-n/C-pで補完候補選択
+;;(setq ac-use-fuzzy t)          ;; 曖昧マッチ
 
 ;; magit
 (require 'magit)
@@ -354,6 +374,14 @@ mouse-3: delete other windows"
 
 (helm-mode 1)
 
+;; irony
+(eval-after-load "irony"
+  '(progn
+     (custom-set-variables '(irony-additional-clang-options '("-std=c++11")))
+     (add-to-list 'company-backends 'company-irony)
+     (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
+     (add-hook 'c-mode-common-hook 'irony-mode)))
+
 (use-package yasnippet
   :ensure t
   :diminish yas-minor-mode
@@ -362,8 +390,9 @@ mouse-3: delete other windows"
               ("C-x i n" . yas-new-snippet)
               ("C-x i v" . yas-visit-snippet-file)
               ("C-x i l" . yas-describe-tables)
-              ("C-x i g" . yas-reload-all))              
+              ("C-x i g" . yas-reload-all))
   :config
+  (define-key yas-keymap (kbd "<tab>") nil)
   (yas-global-mode 1)
   (setq yas-prompt-functions '(yas-ido-prompt))
   )

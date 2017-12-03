@@ -40,3 +40,7 @@
 (depends-on "anzu")
 (depends-on "migemo")
 (depends-on "exec-path-from-shell")
+(depends-on "irony")
+(depends-on "company")
+(depends-on "flycheck-irony")
+

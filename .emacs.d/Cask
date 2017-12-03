@@ -1,7 +1,7 @@
 (source gnu)
 (source melpa)
 
-(depends-on "auto-complete")
+;;(depends-on "auto-complete")
 (depends-on "bind-key")
 (depends-on "cask")
 (depends-on "dash")

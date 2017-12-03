@@ -57,7 +57,7 @@
 (load-theme 'wombat)
 
 
-;;; packages:
+;;; Packages:
 (when (or (require 'cask "~/.cask/cask.el" t)
 	  (require 'cask nil t))
   (cask-initialize))
@@ -72,7 +72,7 @@
 (popwin-mode 1)
 
 ;;; quickrun
-(require 'quickrun)
+;;(require 'quickrun)
 (push '("*quickrun*") popwin:special-display-config)
 
 ;; Add C++ command for C11 and set it default in C++ file.
@@ -90,14 +90,14 @@
   (exec-path-from-shell-initialize))
 
 ;; anzu
-(require 'anzu)
-(global-anzu-mode +1)
-(setq anzu-use-migemo t)
-(setq anzu-search-threshold 1000)
-(setq anzu-minimum-input-length 3)
-
-(global-set-key (kbd "C-c r") 'anzu-query-replace)
-(global-set-key (kbd "C-c R") 'anzu-query-replace-regexp)
+(use-package anzu
+  :config
+  (global-anzu-mode +1)
+  (setq anzu-use-migemo t)
+  (setq anzu-search-threshold 1000)
+  (setq anzu-minimum-input-length 3)
+  (global-set-key (kbd "C-c r") 'anzu-query-replace)
+  (global-set-key (kbd "C-c R") 'anzu-query-replace-regexp))
 
 ;; company
 (when (locate-library "company")
@@ -126,13 +126,15 @@
   )
 
 ;; expand-region
-(require 'expand-region)
-(global-set-key (kbd "C-=") 'er/expand-region)
-(global-set-key (kbd "C-M-=") 'er/contract-region)
+(use-package expand-region
+  :config
+  (global-set-key (kbd "C-=") 'er/expand-region)
+  (global-set-key (kbd "C-M-=") 'er/contract-region))
 
 ;; powerline
-(use-package powerline)
-(powerline-default-theme)
+(use-package powerline
+  :config
+  (powerline-default-theme))
 
 ;; linum
 (use-package linum)
@@ -153,7 +155,7 @@
   :init (setq markdown-command "pandoc"))
 
 ;; minimap
-(require 'minimap)
+(use-package minimap)
 
 ;; ace-jump-mode
 ;; ヒント文字に使う文字を指定する

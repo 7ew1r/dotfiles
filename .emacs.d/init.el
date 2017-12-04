@@ -17,15 +17,23 @@
 (setq delete-auto-save-files t)
 (setq use-dialog-box nil)
 (setq select-enable-clipboard t)
+(setq require-final-newline t)
 (setq-default show-trailing-whitespace t)
 (setq-default tab-width 4 indent-tabs-mode nil)
 (setq-default gc-cons-percentage 0.5)
+
+(setq recentf-max-saved-items 2000) ;; 2000ファイルまで履歴保存する
+(setq recentf-auto-cleanup 'never)  ;; 存在しないファイルは消さない
+(setq recentf-exclude '("/recentf" "COMMIT_EDITMSG" "/.?TAGS" "^/sudo:" "/\\.emacs\\.d/games/*-scores" "/\\.emacs\\.d/\\.cask/"))
+(setq recentf-auto-save-timer (run-with-idle-timer 30 t 'recentf-save-list))
+
+(recentf-mode 1)
 
 (if window-system
     (tool-bar-mode -1)
     (menu-bar-mode -1))
 
-;; フレームの透明度
+;; frame alpha
 (set-frame-parameter (selected-frame) 'alpha '(0.90))
 
 ;; C-Ret で矩形選択
@@ -46,7 +54,8 @@
             (c-set-offset 'statement-cont 'c-lineup-math)  ;;; (c)
             ;; 行末のスペースやタブに色づけして警告する。
             (setq show-trailing-whitespace t)))            ;;; (d)
-;; タイトルバーにファイルのフルパス表示
+
+;; title bar
 (setq frame-title-format
       (format "%%f - Emacs@%s" (system-name)))
 
@@ -68,10 +77,17 @@
 (require 'use-package)
 
 ;;; popwin
-(require 'popwin)
-(popwin-mode 1)
+(use-package popwin
+  :config
+  (popwin-mode 1))
 
-;;; quickrun
+;; codic
+(use-package codic
+  :config
+  (push '("*Codic Result*") popwin:special-display-config)
+  (setq codic-api-token "Z0Hh71xC6HWKjn6SsbJ1b1sLBYUe6gYqkE"))
+
+;; quickrun
 ;;(require 'quickrun)
 (push '("*quickrun*") popwin:special-display-config)
 
@@ -91,13 +107,14 @@
 
 ;; anzu
 (use-package anzu
+  :bind (("C-c r" . anzu-query-replace)
+         ("C-c R" . anzu-query-replace-regexp))
   :config
   (global-anzu-mode +1)
   (setq anzu-use-migemo t)
   (setq anzu-search-threshold 1000)
   (setq anzu-minimum-input-length 3)
-  (global-set-key (kbd "C-c r") 'anzu-query-replace)
-  (global-set-key (kbd "C-c R") 'anzu-query-replace-regexp))
+)
 
 ;; company
 (when (locate-library "company")
@@ -127,9 +144,8 @@
 
 ;; expand-region
 (use-package expand-region
-  :config
-  (global-set-key (kbd "C-=") 'er/expand-region)
-  (global-set-key (kbd "C-M-=") 'er/contract-region))
+  :bind (("C-=" . er/expand-region)
+         ("C-M-=" . er/contract-region)))
 
 ;; powerline
 (use-package powerline
@@ -137,13 +153,14 @@
   (powerline-default-theme))
 
 ;; linum
-(use-package linum)
-(global-linum-mode 1)
-(setq linum-format "%4d ")
-(global-hl-line-mode)
+(use-package linum
+  :config
+  (global-linum-mode 1)
+  (setq linum-format "%4d ")
+  (global-hl-line-mode))
 
-;; 選択領域の色
-(set-face-background 'region "#aa0")
+
+(set-face-background 'region "#aa0") ;; region color
 
 ;; markdown-mode
 (use-package markdown-mode
@@ -154,23 +171,24 @@
          ("\\.markdown\\'" . markdown-mode))
   :init (setq markdown-command "pandoc"))
 
-;; minimap
-(use-package minimap)
-
 ;; ace-jump-mode
 ;; ヒント文字に使う文字を指定する
-(setq ace-jump-mode-move-keys
-      (append "asdfghjkl;:]qwertyuiop@zxcvbnm,." nil))
+(use-package ace-jump-mode
+  :bind (("C-:" . ace-jump-char-mode)
+         ("C-;" . ace-jump-word-mode)
+         ("C-M-;" . ace-jump-line-mode))
+  :init
+         (setq ace-jump-word-mode-use-query-char nil)
+         (append "asdfghjkl;:]qwertyuiop@zxcvbnm,." nil)
 ;; ace-jump-word-modeのとき文字を尋ねないようにする
-(setq ace-jump-word-mode-use-query-char nil)
-(global-set-key (kbd "C-:") 'ace-jump-char-mode)
-(global-set-key (kbd "C-;") 'ace-jump-word-mode)
-(global-set-key (kbd "C-M-;") 'ace-jump-line-mode)
+         (setq ace-jump-word-mode-use-query-char nil))
 
 ;; undo-tree
-(require 'undo-tree)
-(global-undo-tree-mode t)
-(global-set-key (kbd "M-/") 'undo-tree-redo)
+(use-package undo-tree
+  :diminish undo-tree-mode
+  :bind (("M-/" . undo-tree-redo))
+  :init
+  (global-undo-tree-mode t))
 
 ;; multiple-cursors
 (require 'multiple-cursors)
@@ -192,143 +210,16 @@
      (when (locate-library "flycheck-irony")
        (flycheck-irony-setup))))
 
-;; tabbar
-(require 'tabbar)
-(tabbar-mode 1)
-
-;; タブ上でマウスホイール操作無効
-(tabbar-mwheel-mode -1)
-
-;; グループ化しない
-(setq tabbar-buffer-groups-function nil)
-
-;; 左に表示されるボタンを無効化
-(dolist (btn '(tabbar-buffer-home-button
-               tabbar-scroll-left-button
-               tabbar-scroll-right-button))
-  (set btn (cons (cons "" nil)
-                 (cons "" nil))))
-
-;; タブの長さ
-(setq tabbar-separator '(1.5))
-
-;; 外観変更
-(set-face-attribute
- 'tabbar-default nil
- :family "Ricty Diminished"
- :background "#34495E"
- :foreground "#EEEEEE"
- :height 0.95
- )
-(set-face-attribute
- 'tabbar-unselected nil
- :background "#34495E"
- :foreground "#EEEEEE"
- :box nil
-)
-(set-face-attribute
- 'tabbar-modified nil
- :background "#E67E22"
- :foreground "#EEEEEE"
- :box nil
-)
-(set-face-attribute
- 'tabbar-selected nil
- :background "#E74C3C"
- :foreground "#EEEEEE"
- :box nil)
-(set-face-attribute
- 'tabbar-button nil
- :box nil)
-(set-face-attribute
- 'tabbar-separator nil
- :height 2.0)
-
-;; タブに表示させるバッファの設定
-(defvar my-tabbar-displayed-buffers
-  '("*scratch*" "*Messages*" "*Backtrace*" "*Colors*" "*Faces*" "*vc-")
-  "*Regexps matches buffer names always included tabs.")
-
-(defun my-tabbar-buffer-list ()
-  "Return the list of buffers to show in tabs.
-Exclude buffers whose name starts with a space or an asterisk.
-The current buffer and buffers matches `my-tabbar-displayed-buffers'
-are always included."
-  (let* ((hides (list ?\  ?\*))
-         (re (regexp-opt my-tabbar-displayed-buffers))
-         (cur-buf (current-buffer))
-         (tabs (delq nil
-                     (mapcar (lambda (buf)
-                               (let ((name (buffer-name buf)))
-                                 (when (or (string-match re name)
-                                           (not (memq (aref name 0) hides)))
-                                   buf)))
-                             (buffer-list)))))
-    ;; Always include the current buffer.
-    (if (memq cur-buf tabs)
-        tabs
-      (cons cur-buf tabs))))
-
-(setq tabbar-buffer-list-function 'my-tabbar-buffer-list)
-
-;; Chrome ライクなタブ切り替えのキーバインド
-(global-set-key (kbd "<M-s-right>") 'tabbar-forward-tab)
-(global-set-key (kbd "<M-s-left>") 'tabbar-backward-tab)
-
-;; タブ上をマウス中クリックで kill-buffer
-(defun my-tabbar-buffer-help-on-tab (tab)
-  "Return the help string shown when mouse is onto TAB."
-  (if tabbar--buffer-show-groups
-      (let* ((tabset (tabbar-tab-tabset tab))
-             (tab (tabbar-selected-tab tabset)))
-        (format "mouse-1: switch to buffer %S in group [%s]"
-                (buffer-name (tabbar-tab-value tab)) tabset))
-    (format "\
-mouse-1: switch to buffer %S\n\
-mouse-2: kill this buffer\n\
-mouse-3: delete other windows"
-            (buffer-name (tabbar-tab-value tab)))))
-
-(defun my-tabbar-buffer-select-tab (event tab)
-  "On mouse EVENT, select TAB."
-  (let ((mouse-button (event-basic-type event))
-        (buffer (tabbar-tab-value tab)))
-    (cond
-     ((eq mouse-button 'mouse-2)
-      (with-current-buffer buffer
-        (kill-buffer)))
-     ((eq mouse-button 'mouse-3)
-      (delete-other-windows))
-     (t
-      (switch-to-buffer buffer)))
-    ;; Don't show groups.
-    (tabbar-buffer-show-groups nil)))
-
-(setq tabbar-help-on-tab-function 'my-tabbar-buffer-help-on-tab)
-(setq tabbar-select-tab-function 'my-tabbar-buffer-select-tab)
-
-
 ;; Key binding
-(define-key global-map (kbd "M-SPC") 'set-mark-command)
 (keyboard-translate ?\C-h ?\C-?)
 
-;; Auto-Complete
-;;(require 'auto-complete-config)
-;;(ac-config-default)
-;;(add-to-list 'ac-modes 'text-mode)         ;; text-modeでも自動的に有効にする
-;;(add-to-list 'ac-modes 'fundamental-mode)  ;; fundamental-mode
-;;(add-to-list 'ac-modes 'org-mode)
-;;(add-to-list 'ac-modes 'yatex-mode)
-;;(ac-set-trigger-key "TAB")
-;;(setq ac-use-menu-map t)       ;; 補完メニュー表示時にC-n/C-pで補完候補選択
-;;(setq ac-use-fuzzy t)          ;; 曖昧マッチ
-
 ;; magit
-(require 'magit)
+;;(require 'magit)
 
 ;; volatile-highlights
-(require 'volatile-highlights)
-(volatile-highlights-mode t)
+(use-package volatile-highlights
+  :config
+  (volatile-highlights-mode t))
 
 ;; helm
 (require 'helm)
@@ -338,6 +229,7 @@ mouse-3: delete other windows"
 ;; Changed to "C-c h". Note: We must set "C-c h" globally, because we
 ;; cannot change `helm-command-prefix-key' once `helm-config' is loaded.
 (global-set-key (kbd "C-c h") 'helm-command-prefix)
+(global-set-key (kbd "C-x b") 'helm-mini)
 (global-unset-key (kbd "C-x c"))
 (global-set-key (kbd "C-x C-f") 'helm-find-files)
 (global-set-key (kbd "M-x") 'helm-M-x)
@@ -345,6 +237,9 @@ mouse-3: delete other windows"
 (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
 (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB work in terminal
 (define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
+(global-set-key (kbd "C-c h g") 'helm-google-suggest)
+;;(bind-key "C-c っ" 'helm-recentf)
+;;(bind-key "C-c t" 'helm-recentf)
 
 (when (executable-find "curl")
   (setq helm-google-suggest-use-curl-p t))
@@ -366,11 +261,12 @@ mouse-3: delete other windows"
                      `(:background ,bg-color :foreground ,bg-color)))
       (setq-local cursor-type nil))))
 
+(setq helm-M-x-fuzzy-match t) ;; optional fuzzy matching for helm-M-x
 
 (add-hook 'helm-minibuffer-set-up-hook
           'spacemacs//helm-hide-minibuffer-maybe)
 
-(setq helm-autoresize-max-height 0)
+(setq helm-autoresize-max-height 40)
 (setq helm-autoresize-min-height 20)
 (helm-autoresize-mode 1)
 
@@ -384,6 +280,7 @@ mouse-3: delete other windows"
      (add-hook 'irony-mode-hook 'irony-cdb-autosetup-compile-options)
      (add-hook 'c-mode-common-hook 'irony-mode)))
 
+;; yasnippet
 (use-package yasnippet
   :ensure t
   :diminish yas-minor-mode
@@ -396,8 +293,7 @@ mouse-3: delete other windows"
   :config
   (define-key yas-keymap (kbd "<tab>") nil)
   (yas-global-mode 1)
-  (setq yas-prompt-functions '(yas-ido-prompt))
-  )
+  (setq yas-prompt-functions '(yas-ido-prompt)))
 
 ;; diminish
 (defmacro safe-diminish (file mode &optional new-name)
@@ -405,21 +301,23 @@ mouse-3: delete other windows"
   `(with-eval-after-load ,file
      (diminish ,mode ,new-name)))
 
-(safe-diminish "auto-complete" 'auto-complete-mode)
 (safe-diminish "helm-mode" 'helm-mode)
-(safe-diminish "undo-tree" 'undo-tree-mode)
-(safe-diminish "volatile-highlights" 'volatile-highlights-mode)
+(safe-diminish "company" 'company-mode)
+;;(safe-diminish "undo-tree" 'undo-tree-mode)
+;;(safe-diminish "volatile-highlights" 'volatile-highlights-mode)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(irony-additional-clang-options (quote ("-std=c++11")))
  '(mac-option-modifier (quote meta))
  '(minimap-window-location (quote right))
  '(package-selected-packages
    (quote
-    (ace-jump-mode flycheck-popup-tip ac-helm yasnippet web-mode use-package smex smartparens projectile prodigy popwin pallet nyan-mode multiple-cursors magit idle-highlight-mode htmlize flycheck-cask expand-region exec-path-from-shell drag-stuff))))
+    (codic ace-jump-mode flycheck-popup-tip ac-helm yasnippet web-mode use-package smex smartparens projectile prodigy popwin pallet nyan-mode multiple-cursors magit idle-highlight-mode htmlize flycheck-cask expand-region exec-path-from-shell drag-stuff)))
+ '(recentf-mode t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

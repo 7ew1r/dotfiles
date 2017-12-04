@@ -1,7 +1,6 @@
 (source gnu)
 (source melpa)
 
-;;(depends-on "auto-complete")
 (depends-on "bind-key")
 (depends-on "cask")
 (depends-on "dash")
@@ -17,7 +16,6 @@
 (depends-on "idle-highlight-mode")
 (depends-on "magit")
 (depends-on "markdown-mode")
-(depends-on "minimap")
 (depends-on "multiple-cursors")
 (depends-on "nyan-mode")
 (depends-on "pallet")
@@ -28,7 +26,6 @@
 (depends-on "s")
 (depends-on "smartparens")
 (depends-on "smex")
-(depends-on "tabbar")
 (depends-on "use-package")
 (depends-on "web-mode")
 (depends-on "yasnippet")

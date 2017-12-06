@@ -40,4 +40,4 @@
 (depends-on "irony")
 (depends-on "company")
 (depends-on "flycheck-irony")
-
+(depends-on "all-the-icons")

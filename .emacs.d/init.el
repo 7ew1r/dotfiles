@@ -66,6 +66,20 @@
 (load-theme 'wombat)
 
 
+(defun my-lisp-load (filename)
+  "Load lisp from FILENAME"
+  (let ((fullname (expand-file-name (concat "spec/" filename) user-emacs-directory))
+        lisp)
+    (when (file-readable-p fullname)
+      (with-temp-buffer
+        (progn
+          (insert-file-contents fullname)
+          (setq lisp 
+                (condition-case nil
+                    (read (current-buffer))
+                  (error ()))))))
+    lisp))
+
 ;;; Packages:
 (when (or (require 'cask "~/.cask/cask.el" t)
 	  (require 'cask nil t))
@@ -81,11 +95,15 @@
   :config
   (popwin-mode 1))
 
+;; all-the-icons-dired
+(add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
+
 ;; codic
 (use-package codic
   :config
   (push '("*Codic Result*") popwin:special-display-config)
-  (setq codic-api-token "Z0Hh71xC6HWKjn6SsbJ1b1sLBYUe6gYqkE"))
+  ;;(setq codic-api-token "Z0Hh71xC6HWKjn6SsbJ1b1sLBYUe6gYqkE"))
+  (setq codic-api-token (my-lisp-load "codic-api-token")))
 
 ;; quickrun
 ;;(require 'quickrun)
@@ -316,7 +334,7 @@
  '(minimap-window-location (quote right))
  '(package-selected-packages
    (quote
-    (codic ace-jump-mode flycheck-popup-tip ac-helm yasnippet web-mode use-package smex smartparens projectile prodigy popwin pallet nyan-mode multiple-cursors magit idle-highlight-mode htmlize flycheck-cask expand-region exec-path-from-shell drag-stuff)))
+    (all-the-icons codic ace-jump-mode flycheck-popup-tip ac-helm yasnippet web-mode use-package smex smartparens projectile prodigy popwin pallet nyan-mode multiple-cursors magit idle-highlight-mode htmlize flycheck-cask expand-region exec-path-from-shell drag-stuff)))
  '(recentf-mode t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

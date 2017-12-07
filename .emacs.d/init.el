@@ -17,7 +17,7 @@
 (setq delete-auto-save-files t)
 (setq use-dialog-box nil)
 (setq select-enable-clipboard t)
-(setq require-final-newline t)
+;;(setq require-final-newline t)
 (setq-default show-trailing-whitespace t)
 (setq-default tab-width 4 indent-tabs-mode nil)
 (setq-default gc-cons-percentage 0.5)
@@ -65,7 +65,6 @@
 ;;; theme:
 (load-theme 'wombat)
 
-
 (defun my-lisp-load (filename)
   "Load lisp from FILENAME"
   (let ((fullname (expand-file-name (concat "spec/" filename) user-emacs-directory))
@@ -74,7 +73,7 @@
       (with-temp-buffer
         (progn
           (insert-file-contents fullname)
-          (setq lisp 
+          (setq lisp
                 (condition-case nil
                     (read (current-buffer))
                   (error ()))))))

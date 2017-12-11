@@ -12,6 +12,7 @@
 (prefer-coding-system 'utf-8)
 (set-default-coding-systems 'utf-8)
 (set-keyboard-coding-system 'utf-8)
+(electric-pair-mode 1)
 (setq inhibit-splash-screen t)
 (setq make-backup-files nil)
 (setq delete-auto-save-files t)
@@ -99,10 +100,15 @@
 
 ;; codic
 (use-package codic
-  :config
-  (push '("*Codic Result*") popwin:special-display-config)
-  ;;(setq codic-api-token "Z0Hh71xC6HWKjn6SsbJ1b1sLBYUe6gYqkE"))
+  :init
   (setq codic-api-token (my-lisp-load "codic-api-token")))
+
+(push '("*Codic Result*") popwin:special-display-config)
+
+;;
+(use-package duplicate-thing
+  :bind
+  ("M-c" . duplicate-thing))
 
 ;; quickrun
 ;;(require 'quickrun)
@@ -208,7 +214,7 @@
   (global-undo-tree-mode t))
 
 ;; multiple-cursors
-(require 'multiple-cursors)
+;;(require 'multiple-cursors)
 (global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
 (global-set-key (kbd "C->") 'mc/mark-next-like-this)
 (global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
@@ -217,8 +223,8 @@
 ;; flycheck
 (add-hook 'after-init-hook #'global-flycheck-mode)
 
-(require 'flycheck)
-(require 'flycheck-pos-tip)
+;;(require 'flycheck)
+;;(require 'flycheck-pos-tip)
 (with-eval-after-load 'flycheck
   (flycheck-pos-tip-mode))
 
@@ -235,6 +241,7 @@
 
 ;; volatile-highlights
 (use-package volatile-highlights
+  :diminish volatile-highlights-mode
   :config
   (volatile-highlights-mode t))
 
@@ -320,6 +327,7 @@
 
 (safe-diminish "helm-mode" 'helm-mode)
 (safe-diminish "company" 'company-mode)
+(safe-diminish "irony" 'irony-mode)
 ;;(safe-diminish "undo-tree" 'undo-tree-mode)
 ;;(safe-diminish "volatile-highlights" 'volatile-highlights-mode)
 

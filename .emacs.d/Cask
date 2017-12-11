@@ -41,3 +41,4 @@
 (depends-on "company")
 (depends-on "flycheck-irony")
 (depends-on "all-the-icons")
+(depends-on "duplicate-thing")

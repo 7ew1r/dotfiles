@@ -1,3 +1,5 @@
 #!/bin/bash
 ln -sfv $HOME/dotfiles/.zshrc $HOME
 ln -sfv $HOME/dotfiles/.emacs.d $HOME
+ln -sfv $HOME/dotfiles/.config/powerline $HOME/.config/powerline
+

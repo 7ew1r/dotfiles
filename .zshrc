@@ -41,9 +41,14 @@ colors
 # emacs 風キーバインドにする
 bindkey -e
 
-powerline-daemon -q
-# . ~/.local/lib/python3.6/site-packages/powerline/bindings/zsh/powerline.zsh
-. ${PYENV_ROOT}/versions/3.5.0/lib/python3.5/site-packages/powerline/bindings/zsh/powerline.zsh
+POWERLINEFILEPATH=${PYENV_ROOT}/versions/3.5.0/lib/python3.5/site-packages/powerline/bindings/zsh/powerline.zsh
+
+if [ -e $POWERLINEFILEPATH ]; then
+    powerline-daemon -q
+    . $POWERLINEFILEPATH
+else
+    PROMPT="%~ %# "
+fi
 
 ## cd後自動でls
 function chpwd() { gls --color=auto -B }

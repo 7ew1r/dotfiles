@@ -7,6 +7,8 @@ TEWi_R's dotfiles
   - GNU Emacs 25.3.1
 - Ubuntu 16.04
 
+## .zshrc
+- Powerline
+
 ## TODO
-- .zshrc
 - install.sh

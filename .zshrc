@@ -1,6 +1,3 @@
-# 少し凝った zshrc
-# License : MIT
-# http://mollifier.mit-license.org/
 
 ########################################
 ## Environments
@@ -35,7 +32,7 @@ export PATH=$PATH:$GOPATH/bin
 export PATH="$HOME/.cask/bin:$PATH"
 
 # 自作Shellscript
-export PATH="/Users/Arito/Dropbox/shellscript:$PATH"
+export PATH="$HOME/Dropbox/shellscript:$PATH"
 
 # 色を使用出来るようにする
 autoload -Uz colors
@@ -47,17 +44,6 @@ bindkey -e
 powerline-daemon -q
 # . ~/.local/lib/python3.6/site-packages/powerline/bindings/zsh/powerline.zsh
 . ${PYENV_ROOT}/versions/3.5.0/lib/python3.5/site-packages/powerline/bindings/zsh/powerline.zsh
-
-
-# プロンプト
-# 1行表示
-#PROMPT="%~ %# "
-# 2行表示
-#PROMPT="%{${fg[green]}%}[%n@%m]%{${reset_color}%} %~
-#%# "
-
-# PROMPT="%{${fg[red]}%}>%{${fg[yellow]}%}>%{${fg[green]}%}>%{${reset_color}%} %~
-# %# "
 
 ## cd後自動でls
 function chpwd() { gls --color=auto -B }
@@ -88,21 +74,6 @@ zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin \
 
 # ps コマンドのプロセス名補完
 zstyle ':completion:*:processes' command 'ps x -o pid,s,args'
-
-
-########################################
-# vcs_info
-#autoload -Uz vcs_info
-#autoload -Uz add-zsh-hook
-
-# zstyle ':vcs_info:*' formats '%F{green}(%s)-[%b]%f'
-# zstyle ':vcs_info:*' actionformats '%F{red}(%s)-[%b|%a]%f'
-
-# function _update_vcs_info_msg() {
-#     LANG=en_US.UTF-8 vcs_info
-#     RPROMPT="${vcs_info_msg_0_}"
-# }
-# add-zsh-hook precmd _update_vcs_info_msg
 
 
 ########################################
@@ -146,8 +117,7 @@ setopt extended_glob
 ########################################
 # キーバインド
 
-# ^R で履歴検索をするときに * でワイルドカードを使用出来るようにする
-bindkey '^R' history-incremental-pattern-search-backward
+
 
 ########################################
 # Alias
@@ -237,7 +207,9 @@ function peco-src () {
 zle -N peco-src
 bindkey '^=' peco-src
 
-#function em (){
-#    /usr/local/Cellar/emacs-mac/emacs-25.3-mac-6.8/Emacs.app/Contents/MacOS/Emacs &
-#}
-alias em="/usr/local/Cellar/emacs-mac/emacs-25.3-mac-6.8/Emacs.app/Contents/MacOS/Emacs &"
+case ${OSTYPE} in
+     darwin*)
+         #Mac用の設定
+         alias em="/usr/local/Cellar/emacs-mac/emacs-25.3-mac-6.8/Emacs.app/Contents/MacOS/Emacs &"
+         ;;
+ esac

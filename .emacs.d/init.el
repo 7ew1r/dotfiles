@@ -34,8 +34,15 @@
     (tool-bar-mode -1)
     (menu-bar-mode -1))
 
+(fset 'yes-or-no-p 'y-or-n-p)
+
+;;; Appearance:
 ;; frame alpha
 (set-frame-parameter (selected-frame) 'alpha '(0.90))
+
+;; title bar
+(setq frame-title-format
+      (format "%%f - Emacs@%s" (system-name)))
 
 ;; C-Ret で矩形選択
 ;; 詳しいキーバインド操作：http://dev.ariel-networks.com/articles/emacs/part5/
@@ -56,14 +63,10 @@
             ;; 行末のスペースやタブに色づけして警告する。
             (setq show-trailing-whitespace t)))            ;;; (d)
 
-;; title bar
-(setq frame-title-format
-      (format "%%f - Emacs@%s" (system-name)))
+;; Key binding
+(keyboard-translate ?\C-h ?\C-?)
 
-;;yes or noをy or n
-(fset 'yes-or-no-p 'y-or-n-p)
-
-;;; theme:
+;;; Theme:
 (load-theme 'wombat)
 
 (defun my-lisp-load (filename)
@@ -100,12 +103,11 @@
 
 ;; codic
 (use-package codic
-  :init
-  (setq codic-api-token (my-lisp-load "codic-api-token")))
+  :config
+  (setq codic-api-token (my-lisp-load "codic-api-token"))
+  (push '("*Codic Result*") popwin:special-display-config))
 
-(push '("*Codic Result*") popwin:special-display-config)
-
-;;
+;; duplicate-thing
 (use-package duplicate-thing
   :bind
   ("M-c" . duplicate-thing))
@@ -176,11 +178,11 @@
   (powerline-default-theme))
 
 ;; linum
-(use-package linum
-  :config
-  (global-linum-mode 1)
-  (setq linum-format "%4d ")
-  (global-hl-line-mode))
+;(use-package linum
+ ; :config
+;  (global-linum-mode 1)
+ ; (setq linum-format "%4d ")
+;  (global-hl-line-mode))
 
 
 (set-face-background 'region "#aa0") ;; region color
@@ -195,7 +197,6 @@
   :init (setq markdown-command "pandoc"))
 
 ;; ace-jump-mode
-;; ヒント文字に使う文字を指定する
 (use-package ace-jump-mode
   :bind (("C-:" . ace-jump-char-mode)
          ("S-SPC" . ace-jump-word-mode)
@@ -234,14 +235,14 @@
      (when (locate-library "flycheck-irony")
        (flycheck-irony-setup))))
 
-;; Key binding
-(keyboard-translate ?\C-h ?\C-?)
-
 ;; magit
 ;;(require 'magit)
 
 ;; right-click-context
-(right-click-context-mode 1)
+(use-package right-click-context
+  :diminish right-click-context-mode
+  :config
+  (right-click-context-mode 1))
 
 ;; volatile-highlights
 (use-package volatile-highlights
@@ -267,7 +268,7 @@
 (define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
 (global-set-key (kbd "C-c h g") 'helm-google-suggest)
 ;;(bind-key "C-c っ" 'helm-recentf)
-;;(bind-key "C-c t" 'helm-recentf)
+(global-set-key (kbd "C-c t") 'helm-recentf)
 
 (when (executable-find "curl")
   (setq helm-google-suggest-use-curl-p t))

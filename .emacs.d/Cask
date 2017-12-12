@@ -41,5 +41,7 @@
 (depends-on "company")
 (depends-on "flycheck-irony")
 (depends-on "all-the-icons")
+(depends-on "all-the-icons-dired")
 (depends-on "duplicate-thing")
 (depends-on "right-click-context" :git "https://github.com/zonuexe/right-click-context.git")
+(depends-on "pandoc")

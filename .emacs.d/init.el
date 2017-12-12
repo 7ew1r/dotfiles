@@ -5,7 +5,7 @@
 ;;; Code:
 ;; initial window size
  (setq initial-frame-alist
-          '((top . 1) (left . 1) (width . 100) (height . 54)))
+          '((top . 1) (left . 1) (width . 120) (height . 70)))
 
 ;;; Variables:
 (set-language-environment 'Japanese)
@@ -198,11 +198,12 @@
 ;; ヒント文字に使う文字を指定する
 (use-package ace-jump-mode
   :bind (("C-:" . ace-jump-char-mode)
-         ("C-;" . ace-jump-word-mode)
+         ("S-SPC" . ace-jump-word-mode)
          ("C-M-;" . ace-jump-line-mode))
   :init
          (setq ace-jump-word-mode-use-query-char nil)
-         (append "asdfghjkl;:]qwertyuiop@zxcvbnm,." nil)
+;;         (append "asdfghjkl;:]qwertyuiop@zxcvbnm,." nil)
+         (append "aoeuidhtns',.pyfgcrl;qjkxbmwvz" nil)
 ;; ace-jump-word-modeのとき文字を尋ねないようにする
          (setq ace-jump-word-mode-use-query-char nil))
 
@@ -238,6 +239,9 @@
 
 ;; magit
 ;;(require 'magit)
+
+;; right-click-context
+(right-click-context-mode 1)
 
 ;; volatile-highlights
 (use-package volatile-highlights

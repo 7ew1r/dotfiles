@@ -42,3 +42,4 @@
 (depends-on "flycheck-irony")
 (depends-on "all-the-icons")
 (depends-on "duplicate-thing")
+(depends-on "right-click-context" :git "https://github.com/zonuexe/right-click-context.git")

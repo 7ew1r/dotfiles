@@ -1,4 +1,3 @@
-
 ########################################
 ## Environments
 export LANG=ja_JP.UTF-8
@@ -215,6 +214,6 @@ bindkey '^=' peco-src
 case ${OSTYPE} in
      darwin*)
          #Mac用の設定
-         alias em="/usr/local/Cellar/emacs-mac/emacs-25.3-mac-6.8/Emacs.app/Contents/MacOS/Emacs &"
+         alias em='() { command /usr/local/Cellar/emacs-mac/emacs-25.3-mac-6.8/Emacs.app/Contents/MacOS/Emacs $@ &}'
          ;;
  esac

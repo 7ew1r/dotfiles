@@ -63,6 +63,13 @@
             ;; 行末のスペースやタブに色づけして警告する。
             (setq show-trailing-whitespace t)))            ;;; (d)
 
+(add-hook 'python-mode-hook
+                   '(lambda ()
+                        (setq indent-tabs-mode nil)
+                        (setq indent-level 4)
+                        (setq python-indent 4)
+                        (setq tab-width 4)))
+
 ;; Key binding
 (keyboard-translate ?\C-h ?\C-?)
 
@@ -90,8 +97,10 @@
 (package-initialize)
 
 (require 'pallet)
+(pallet-mode t)
 
 (require 'use-package)
+
 
 ;;; popwin
 (use-package popwin
@@ -151,6 +160,12 @@
   (define-key company-search-map (kbd "C-n") 'company-select-next)
   (define-key company-search-map (kbd "C-p") 'company-select-previous)
   (define-key company-active-map (kbd "<tab>") 'company-complete-selection))
+
+(require 'jedi-core)
+(setq jedi:complete-on-dot t)
+(setq jedi:use-shortcuts t)
+(add-hook 'python-mode-hook 'jedi:setup)
+(add-to-list 'company-backends 'company-jedi)
 
 ;; migemo
 (when (and (executable-find "cmigemo")

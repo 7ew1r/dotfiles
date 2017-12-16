@@ -45,3 +45,7 @@
 (depends-on "duplicate-thing")
 (depends-on "right-click-context" :git "https://github.com/zonuexe/right-click-context.git")
 (depends-on "pandoc")
+(depends-on "csv-mode")
+(depends-on "python")
+(depends-on "elpy")
+(depends-on "company-jedi")

@@ -214,7 +214,7 @@
 ;; ace-jump-mode
 (use-package ace-jump-mode
   :bind (("C-:" . ace-jump-char-mode)
-         ("S-SPC" . ace-jump-word-mode)
+         ("C-;" . ace-jump-word-mode)
          ("C-M-;" . ace-jump-line-mode))
   :init
          (setq ace-jump-word-mode-use-query-char nil)

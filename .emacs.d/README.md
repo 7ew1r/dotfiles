@@ -34,7 +34,7 @@ $ cask
 ``` shell
 $ brew install pandoc cmigemo llvm # Homebrew
 or
-$ sudo apt install pandoc cmigemo libclang-dev # Ubuntu
+$ sudo apt install pandoc cmigemo llvm-dev clang libclang-dev cmake # Ubuntu
 ```
 
 ### codic

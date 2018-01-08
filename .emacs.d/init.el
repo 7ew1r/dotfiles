@@ -116,6 +116,9 @@
   (setq codic-api-token (my-lisp-load "codic-api-token"))
   (push '("*Codic Result*") popwin:special-display-config))
 
+;; cmake-ide
+(cmake-ide-setup)
+
 ;; duplicate-thing
 (use-package duplicate-thing
   :bind

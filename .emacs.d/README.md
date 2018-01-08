@@ -15,7 +15,7 @@ or
 $ curl -fsSL https://raw.githubusercontent.com/cask/cask/master/go | python
 ```
 
-Add below to .bashrc (or ,zshrc)
+Add the following to .bashrc (or ,zshrc)
 
 ``` .bashrc (or .zshrc)
 $ vi .bashrc

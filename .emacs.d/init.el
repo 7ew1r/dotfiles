@@ -5,7 +5,7 @@
 ;;; Code:
 ;; initial window size
  (setq initial-frame-alist
-          '((top . 1) (left . 1) (width . 120) (height . 70)))
+          '((top . 1) (left . 1) (width . 120) (height . 55)))
 
 ;;; Variables:
 (set-language-environment 'Japanese)

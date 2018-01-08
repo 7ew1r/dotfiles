@@ -49,3 +49,5 @@
 (depends-on "python")
 (depends-on "elpy")
 (depends-on "company-jedi")
+(depends-on "cmake-ide")
+(depends-on "cmake-mode")

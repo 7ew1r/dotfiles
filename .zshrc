@@ -12,13 +12,17 @@ export PATH=/Applications/Doxygen.app/Contents/Resources:$PATH
 export PATH="/Library/TeX/texbin:$PATH"
 
 # Python
-export PYENV_ROOT=$HOME/.pyenv
-export PATH=$PYENV_ROOT/bin:$PATH
-eval "$(pyenv init -)"
+if [ -d ${HOME}/.pyenv ]; then
+    export PYENV_ROOT=$HOME/.pyenv
+    export PATH=$PYENV_ROOT/bin:$PATH
+    eval "$(pyenv init -)"
+fi
 
 # ruby
-export PATH="$HOME/.rbenv/bin:$PATH"
-eval "$(rbenv init -)"
+if [ -d ${HOME}/.rbenv ]; then
+  export PATH=$HOME/.rbenv/bin:$PATH
+  eval "$(rbenv init -)"
+fi
 
 # node.js
 export PATH=$HOME/.nodebrew/current/bin:$PATH

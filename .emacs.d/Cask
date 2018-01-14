@@ -51,3 +51,4 @@
 (depends-on "company-jedi")
 (depends-on "cmake-ide")
 (depends-on "cmake-mode")
+(depends-on "rtags")

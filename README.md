@@ -22,21 +22,21 @@ _|    _|  _|    _|    _|        _|      _|  _|  _|            _|_|
 - coreutiles
 - Powerline (optional)
 
-Add the following on `.zshenv`
+Add the following on `~/.zshenv`
 
-``` shellsession
+``` shell
 export ZDOTDIR=$HOME/.zsh
 ```
 
 ```shell
-$ cp $HOME/dotfiles/.zsh/.zsh_local.temp $HOME/dotfiles/.zsh/.zsh_local
-$ vi $HOME/dotfiles/.zsh/.zsh_local
+$ cp $HOME/dotfiles/.zsh/.zshrc_local.temp $HOME/dotfiles/.zsh/.zshrc_local
+$ vi $HOME/dotfiles/.zsh/.zshrc_local
 add local setting here
 ```
 
 ## tmux
 
-## emacs
+## Emacs
 
 ## TODO
 - install.sh

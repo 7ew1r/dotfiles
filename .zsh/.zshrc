@@ -25,7 +25,9 @@ if [ -e $POWERLINEFILEPATH ]; then
     powerline-daemon -q
     . $POWERLINEFILEPATH
 else
-    PROMPT="%~ %# "
+    autoload -U promptinit
+    promptinit
+    prompt adam1
 fi
 
 #### Functions ################################################################

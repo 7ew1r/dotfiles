@@ -3,6 +3,7 @@
 export LANG=ja_JP.UTF-8
 
 # load .zshrc_*
+[ -f $ZDOTDIR/.zshrc_`uname` ] && . $ZDOTDIR/.zshrc_`uname`
 [ -f $ZDOTDIR/.zshrc_local ] && . $ZDOTDIR/.zshrc_local
 
 # 色を使用出来るようにする
@@ -26,8 +27,6 @@ else
 fi
 
 #### Functions ################################################################
-function chpwd() { gls --color=auto -B } # ls after cd
-
 function peco-select-history() {
   BUFFER=$(\history -n -r 1 | peco --query "$LBUFFER")
   CURSOR=$#BUFFER
@@ -60,12 +59,9 @@ alias ll='ls -l'
 alias rm='rm -i'
 alias cp='cp -i'
 alias mv='mv -i'
-alias ls="gls --color=auto -B"
+
 alias mkdir='mkdir -p'
 alias sudo='sudo ' # enable aliases after 'sudo'
-
-# brew doctor実行時、pyenvのPATHを抜く（Waring対策）
-alias brew="env PATH=${PATH/\/Users\/Arito\/\.pyenv\/shims:/} brew"
 
 # グローバルエイリアス
 alias -g L='| less'

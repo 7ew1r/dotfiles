@@ -24,7 +24,7 @@ _|    _|  _|    _|    _|        _|      _|  _|  _|            _|_|
 
 Add the following on `~/.zshenv`
 
-``` shell
+```shell
 export ZDOTDIR=$HOME/.zsh
 ```
 

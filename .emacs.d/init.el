@@ -38,7 +38,7 @@
 
 ;;; Appearance:
 ;; frame alpha
-(set-frame-parameter (selected-frame) 'alpha '(0.90))
+;;(set-frame-parameter (selected-frame) 'alpha '(0.90))
 
 ;; title bar
 (setq frame-title-format
@@ -74,7 +74,7 @@
 (keyboard-translate ?\C-h ?\C-?)
 
 ;;; Theme:
-(load-theme 'wombat)
+(load-theme 'misterioso)
 
 (defun my-lisp-load (filename)
   "Load lisp from FILENAME"
@@ -117,7 +117,22 @@
   (push '("*Codic Result*") popwin:special-display-config))
 
 ;; cmake-ide
-(cmake-ide-setup)
+(use-package cmake-ide
+  :config
+  (progn
+    (setq
+     ; rdm & rcコマンドへのパス。コマンドはRTagsのインストール・ディレクトリ下。
+     cmake-ide-rdm-executable "/usr/local/bin/rdm"
+     cmake-ide-rc-executable "/usr/local/bin/rc")))
+
+;; rtags
+(use-package rtags
+  :config
+  (progn
+    ;(rtags-enable-standard-keybindings c-mode-base-map)
+    ; 関数cmake-ide-setupを呼ぶのはrtagsをrequireしてから。
+    (cmake-ide-setup)
+    ))
 
 ;; duplicate-thing
 (use-package duplicate-thing
@@ -164,6 +179,9 @@
   (define-key company-search-map (kbd "C-p") 'company-select-previous)
   (define-key company-active-map (kbd "<tab>") 'company-complete-selection))
 
+;; company-rtags
+(use-package company-rtags)
+
 (require 'jedi-core)
 (setq jedi:complete-on-dot t)
 (setq jedi:use-shortcuts t)
@@ -194,14 +212,6 @@
 (use-package powerline
   :config
   (powerline-default-theme))
-
-;; linum
-;(use-package linum
- ; :config
-;  (global-linum-mode 1)
- ; (setq linum-format "%4d ")
-;  (global-hl-line-mode))
-
 
 (set-face-background 'region "#aa0") ;; region color
 
@@ -331,12 +341,12 @@
 (use-package yasnippet
   :ensure t
   :diminish yas-minor-mode
-  :bind (:map yas-minor-mode-map
-              ("C-x i i" . yas-insert-snippet)
-              ("C-x i n" . yas-new-snippet)
-              ("C-x i v" . yas-visit-snippet-file)
-              ("C-x i l" . yas-describe-tables)
-              ("C-x i g" . yas-reload-all))
+;  :bind (:map yas-minor-mode-map
+;              ("C-x i i" . yas-insert-snippet)
+;              ("C-x i n" . yas-new-snippet)
+;              ("C-x i v" . yas-visit-snippet-file)
+;              ("C-x i l" . yas-describe-tables)
+;              ("C-x i g" . yas-reload-all))
   :config
   (define-key yas-keymap (kbd "<tab>") nil)
   (yas-global-mode 1)

@@ -39,6 +39,7 @@
 (depends-on "exec-path-from-shell")
 (depends-on "irony")
 (depends-on "company")
+(depends-on "company-rtags")
 (depends-on "flycheck-irony")
 (depends-on "all-the-icons")
 (depends-on "all-the-icons-dired")

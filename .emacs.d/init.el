@@ -103,7 +103,7 @@
     lisp))
 
 ;;; Packages:
-(when (or (require 'cask "~/.cask/cask.el" t) ;; installed by from
+(when (or (require 'cask "~/.cask/cask.el" t) ;; installed from curl
 	  (require 'cask nil t)) ;; installed from Homebrew
   (cask-initialize))
 (package-initialize)

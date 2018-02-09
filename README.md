@@ -1,26 +1,24 @@
 # dotfiles
 
-```
-      _|              _|          _|_|  _|  _|
-  _|_|_|    _|_|    _|_|_|_|    _|          _|    _|_|      _|_|_|
-_|    _|  _|    _|    _|      _|_|_|_|  _|  _|  _|_|_|_|  _|_|
-_|    _|  _|    _|    _|        _|      _|  _|  _|            _|_|
-  _|_|_|    _|_|        _|_|    _|      _|  _|    _|_|_|  _|_|_|
-
-```
+TEWi_R's dotfiles
 
 ## Environments
+
 - macOS Sierra 10.12.6
   - [Homebrew](https://brew.sh)
   - GNU Emacs 25.3.1
 - Ubuntu 16.04
 
+- zsh
+- tmux
+- emacs
+
 ## zsh
-### required
+
 - peco
 - ghq
 - coreutiles
-- Powerline (optional)
+- ~~Powerline (optional)~~
 
 Add the following on `~/.zshenv`
 

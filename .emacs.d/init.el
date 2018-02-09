@@ -4,8 +4,8 @@
 
 ;;; Code:
 ;; initial window size
- (setq initial-frame-alist
-          '((top . 1) (left . 1) (width . 120) (height . 55)))
+;; (setq initial-frame-alist
+;;          '((top . 1) (left . 1) (width . 120) (height . 55)))
 
 ;;; Variables:
 (set-language-environment 'Japanese)
@@ -22,23 +22,23 @@
 (setq-default show-trailing-whitespace t)
 (setq-default tab-width 4 indent-tabs-mode nil)
 (setq-default gc-cons-percentage 0.5)
+(fset 'yes-or-no-p 'y-or-n-p)
 
-(setq recentf-max-saved-items 2000) ;; 2000ファイルまで履歴保存する
-(setq recentf-auto-cleanup 'never)  ;; 存在しないファイルは消さない
+;; recentf
+(setq recentf-max-saved-items 2000)
+(setq recentf-auto-cleanup 'never)
 (setq recentf-exclude '("/recentf" "COMMIT_EDITMSG" "/.?TAGS" "^/sudo:" "/\\.emacs\\.d/games/*-scores" "/\\.emacs\\.d/\\.cask/"))
 (setq recentf-auto-save-timer (run-with-idle-timer 30 t 'recentf-save-list))
-
 (recentf-mode 1)
-
-(if window-system
-    (tool-bar-mode -1)
-    (menu-bar-mode -1))
-
-(fset 'yes-or-no-p 'y-or-n-p)
 
 ;;; Appearance:
 ;; frame alpha
 ;;(set-frame-parameter (selected-frame) 'alpha '(0.90))
+(set-scroll-bar-mode 'nil)
+
+(if window-system
+    (tool-bar-mode -1)
+    (menu-bar-mode -1))
 
 ;; title bar
 (setq frame-title-format
@@ -70,12 +70,24 @@
                         (setq python-indent 4)
                         (setq tab-width 4)))
 
-;; Key binding
-(keyboard-translate ?\C-h ?\C-?)
-
 ;;; Theme:
 (load-theme 'misterioso)
 
+;;; Key binding:
+
+;; macOS
+;; Control -> C, option -> meta, command -> super
+(when (eq system-type 'darwin)
+  (setq mac-command-modifier 'super))
+
+(keyboard-translate ?\C-h ?\C-?)
+
+(global-set-key (kbd "s-;") 'kill-region)
+(global-set-key (kbd "s-j") 'kill-ring-save)
+(global-set-key (kbd "s-k") 'yank)
+
+;;; Macros:
+; https://masutaka.net/chalow/2016-05-06-2.html
 (defun my-lisp-load (filename)
   "Load lisp from FILENAME"
   (let ((fullname (expand-file-name (concat "spec/" filename) user-emacs-directory))
@@ -91,24 +103,57 @@
     lisp))
 
 ;;; Packages:
-(when (or (require 'cask "~/.cask/cask.el" t)
-	  (require 'cask nil t))
+(when (or (require 'cask "~/.cask/cask.el" t) ;; installed by from
+	  (require 'cask nil t)) ;; installed from Homebrew
   (cask-initialize))
 (package-initialize)
 
-(require 'pallet)
-(pallet-mode t)
-
 (require 'use-package)
 
+;; pallet.el
+(use-package pallet
+  :no-require t
+  :commands (pallet-init)
+  :config
+  (pallet-mode t)
+  (condition-case nil
+        (pallet-init)
+      (error nil)))
 
-;;; popwin
+;;; popwin.el
 (use-package popwin
   :config
   (popwin-mode 1))
 
+;; ace-jump-mode
+(use-package ace-jump-mode
+  :bind (("C-:" . ace-jump-char-mode)
+         ("C-;" . ace-jump-word-mode)
+         ("C-M-;" . ace-jump-line-mode))
+  :init
+         (setq ace-jump-word-mode-use-query-char nil)
+         (append "aoeuidhtns',.pyfgcrl;qjkxbmwvz" nil)
+;; ace-jump-word-modeのとき文字を尋ねないようにする
+         (setq ace-jump-word-mode-use-query-char nil))
+
 ;; all-the-icons-dired
 (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
+
+(use-package auto-compile :no-require t :defer t :ensure t
+    :diminish "C"
+    :init
+    (add-hook 'emacs-lisp-mode-hook 'auto-compile-mode))
+
+;; anzu
+(use-package anzu
+  :no-require
+  :bind (("C-c r" . anzu-query-replace)
+         ("C-c R" . anzu-query-replace-regexp))
+  :config
+  (global-anzu-mode +1)
+  (setq anzu-use-migemo t)
+  (setq anzu-search-threshold 1000)
+  (setq anzu-minimum-input-length 3))
 
 ;; codic
 (use-package codic
@@ -118,6 +163,7 @@
 
 ;; cmake-ide
 (use-package cmake-ide
+  :disabled t
   :config
   (progn
     (setq
@@ -131,7 +177,7 @@
   (progn
     ;(rtags-enable-standard-keybindings c-mode-base-map)
     ; 関数cmake-ide-setupを呼ぶのはrtagsをrequireしてから。
-    (cmake-ide-setup)
+    ;(cmake-ide-setup)
     ))
 
 ;; duplicate-thing
@@ -139,8 +185,56 @@
   :bind
   ("M-c" . duplicate-thing))
 
-;; quickrun
-;;(require 'quickrun)
+;; elscreen.el
+(use-package elscreen
+  :bind
+  (("s-y" . 'elscreen-create)
+  ("C-<tab>" . elscreen-next)
+  ;("s-M-<right>" . elscreen-next)
+  ("C-S-<tab>" . elscreen-previous)
+  ;("s-M-<left>" . elscreen-previous)
+  ("s-," . elscreen-kill))
+  :init
+  (elscreen-start)
+  (set-face-attribute 'elscreen-tab-background-face nil
+                      :background "grey10"
+                      :foreground "grey90")
+  (set-face-attribute 'elscreen-tab-control-face nil
+                      :background "grey20"
+                      :foreground "grey90")
+  (set-face-attribute 'elscreen-tab-current-screen-face nil
+                      :background "#2d3743"
+                      :foreground "#e1e1e0")
+  (set-face-attribute 'elscreen-tab-other-screen-face nil
+                      :background "grey30"
+                      :foreground "grey60")
+  :config
+  (setq elscreen-tab-display-kill-screen nil)
+  (setq elscreen-tab-display-control nil))
+;;; タブに表示させる内容を決定
+  ;; (setq elscreen-buffer-to-nickname-alist
+  ;;       '(("^dired-mode$" .
+  ;;          (lambda ()
+  ;;            (format "Dired(%s)" dired-directory)))
+  ;;         ("^Info-mode$" .
+  ;;          (lambda ()
+  ;;            (format "Info(%s)" (file-name-nondirectory Info-current-file))))
+  ;;         ("^mew-draft-mode$" .
+  ;;          (lambda ()
+  ;;            (format "Mew(%s)" (buffer-name (current-buffer)))))
+  ;;         ("^mew-" . "Mew")
+  ;;         ("^irchat-" . "IRChat")
+  ;;         ("^liece-" . "Liece")
+  ;;         ("^lookup-" . "Lookup")))
+  ;; (setq elscreen-mode-to-nickname-alist
+  ;;       '(("[Ss]hell" . "shell")
+  ;;         ("compilation" . "compile")
+  ;;         ("-telnet" . "telnet")
+  ;;         ("dict" . "OnlineDict")
+  ;;         ("*WL:Message*" . "Wanderlust"))))
+
+;; quickrun.el
+(use-package quickrun)
 (push '("*quickrun*") popwin:special-display-config)
 
 ;; Add C++ command for C11 and set it default in C++ file.
@@ -156,17 +250,6 @@
 ;;; path:
 (when (memq window-system '(mac ns))
   (exec-path-from-shell-initialize))
-
-;; anzu
-(use-package anzu
-  :bind (("C-c r" . anzu-query-replace)
-         ("C-c R" . anzu-query-replace-regexp))
-  :config
-  (global-anzu-mode +1)
-  (setq anzu-use-migemo t)
-  (setq anzu-search-threshold 1000)
-  (setq anzu-minimum-input-length 3)
-)
 
 ;; company
 (when (locate-library "company")
@@ -189,8 +272,9 @@
 (add-to-list 'company-backends 'company-jedi)
 
 ;; migemo
-(when (and (executable-find "cmigemo")
-           (require 'migemo nil t))
+(use-package migemo
+  :if (executable-find "cmigemo")
+  :config
   (setq migemo-command "cmigemo")
   (setq migemo-options '("-q" "--emacs"))
 
@@ -200,20 +284,18 @@
   (setq migemo-regex-dictionary nil)
   (setq migemo-coding-system 'utf-8-unix)
   (load-library "migemo")
-  (migemo-init)
-  )
+  (migemo-init))
 
 ;; expand-region
 (use-package expand-region
   :bind (("C-=" . er/expand-region)
-         ("C-M-=" . er/contract-region)))
+         ("C-M-=" . er/contract-region))
+  :init (set-face-background 'region "#aa0"))
 
 ;; powerline
 (use-package powerline
   :config
   (powerline-default-theme))
-
-(set-face-background 'region "#aa0") ;; region color
 
 ;; markdown-mode
 (use-package markdown-mode
@@ -224,18 +306,6 @@
          ("\\.markdown\\'" . markdown-mode))
   :init (setq markdown-command "pandoc"))
 
-;; ace-jump-mode
-(use-package ace-jump-mode
-  :bind (("C-:" . ace-jump-char-mode)
-         ("C-;" . ace-jump-word-mode)
-         ("C-M-;" . ace-jump-line-mode))
-  :init
-         (setq ace-jump-word-mode-use-query-char nil)
-;;         (append "asdfghjkl;:]qwertyuiop@zxcvbnm,." nil)
-         (append "aoeuidhtns',.pyfgcrl;qjkxbmwvz" nil)
-;; ace-jump-word-modeのとき文字を尋ねないようにする
-         (setq ace-jump-word-mode-use-query-char nil))
-
 ;; undo-tree
 (use-package undo-tree
   :diminish undo-tree-mode
@@ -244,11 +314,10 @@
   (global-undo-tree-mode t))
 
 ;; multiple-cursors
-;;(require 'multiple-cursors)
-(global-set-key (kbd "C-S-c C-S-c") 'mc/edit-lines)
-(global-set-key (kbd "C->") 'mc/mark-next-like-this)
-(global-set-key (kbd "C-<") 'mc/mark-previous-like-this)
-(global-set-key (kbd "C-c C-<") 'mc/mark-all-like-this)
+(use-package multiple-cursors
+  :ensure t
+  :bind (("C->" . mc/mark-next-like-this)
+         ("C-<" . mc/mark-previous-like-this)))
 
 ;; flycheck
 (add-hook 'after-init-hook #'global-flycheck-mode)
@@ -264,10 +333,11 @@
        (flycheck-irony-setup))))
 
 ;; magit
-;;(require 'magit)
+(use-package magit)
 
 ;; right-click-context
 (use-package right-click-context
+  :no-require
   :diminish right-click-context-mode
   :config
   (right-click-context-mode 1))
@@ -299,9 +369,11 @@
 (global-set-key (kbd "C-c t") 'helm-recentf)
 
 (when (executable-find "curl")
-  (setq helm-google-suggest-use-curl-p t))
+                                        ;(setq helm-google-suggest-use-curl-p t))
+  (setq helm-net-prefer-curl t))
 
-(setq helm-split-window-in-side-p           t ; open helm buffer inside current window, not occupy whole other window
+;(setq helm-split-window-in-side-p           t ; open helm buffer inside current window, not occupy whole other window
+(setq helm-split-window-inside-p           t ; open helm buffer inside current window, not occupy whole other window
       helm-move-to-line-cycle-in-source     t ; move to end or beginning of source when reaching top or bottom of source.
       helm-ff-search-library-in-sexp        t ; search for library in `require' and `declare-function' sexp.
       helm-scroll-amount                    8 ; scroll 8 lines other window using M-<next>/M-<prior>
@@ -328,6 +400,15 @@
 (helm-autoresize-mode 1)
 
 (helm-mode 1)
+
+;; neotree
+(use-package neotree
+  :ensure t
+  :bind
+  (("s-\\" . neotree-toggle))
+  :config
+  (setq neo-show-hidden-files t)
+  (setq neo-theme (if (display-graphic-p) 'icons 'arrow)))
 
 ;; irony
 (eval-after-load "irony"
@@ -371,10 +452,9 @@
  ;; If there is more than one, they won't work right.
  '(irony-additional-clang-options (quote ("-std=c++11")))
  '(mac-option-modifier (quote meta))
- '(minimap-window-location (quote right))
  '(package-selected-packages
    (quote
-    (all-the-icons codic ace-jump-mode flycheck-popup-tip ac-helm yasnippet web-mode use-package smex smartparens projectile prodigy popwin pallet nyan-mode multiple-cursors magit idle-highlight-mode htmlize flycheck-cask expand-region exec-path-from-shell drag-stuff)))
+    (auto-compile all-the-icons codic ace-jump-mode flycheck-popup-tip ac-helm yasnippet web-mode use-package smex smartparens projectile prodigy popwin pallet nyan-mode multiple-cursors magit idle-highlight-mode htmlize flycheck-cask expand-region exec-path-from-shell drag-stuff)))
  '(recentf-mode t))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.

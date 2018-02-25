@@ -13,6 +13,7 @@
 (depends-on "cmake-mode")
 (depends-on "codic")
 (depends-on "company")
+(depends-on "company-irony")
 (depends-on "company-jedi")
 (depends-on "company-rtags")
 (depends-on "concurrent")

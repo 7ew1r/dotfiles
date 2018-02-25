@@ -3,9 +3,6 @@
 ;;; Commentary:
 
 ;;; Code:
-;; initial window size
-;; (setq initial-frame-alist
-;;          '((top . 1) (left . 1) (width . 120) (height . 55)))
 
 ;;; Variables:
 (set-language-environment 'Japanese)
@@ -24,21 +21,17 @@
 (setq-default gc-cons-percentage 0.5)
 (fset 'yes-or-no-p 'y-or-n-p)
 
-;; recentf
-(setq recentf-max-saved-items 2000)
-(setq recentf-auto-cleanup 'never)
-(setq recentf-exclude '("/recentf" "COMMIT_EDITMSG" "/.?TAGS" "^/sudo:" "/\\.emacs\\.d/games/*-scores" "/\\.emacs\\.d/\\.cask/"))
-(setq recentf-auto-save-timer (run-with-idle-timer 30 t 'recentf-save-list))
-(recentf-mode 1)
-
 ;;; Appearance:
-;; frame alpha
-;;(set-frame-parameter (selected-frame) 'alpha '(0.90))
 (set-scroll-bar-mode 'nil)
 
 (if window-system
     (tool-bar-mode -1)
     (menu-bar-mode -1))
+
+;; initial window size
+(setq initial-frame-alist
+      '((width . 120) (height . 55)))
+
 
 ;; title bar
 (setq frame-title-format
@@ -46,13 +39,8 @@
 
 ;; C-Ret で矩形選択
 ;; 詳しいキーバインド操作：http://dev.ariel-networks.com/articles/emacs/part5/
-(cua-mode t)
-(setq cua-enable-cua-keys nil)
-
-;; 括弧の範囲内を強調表示
-(show-paren-mode t)
-(setq show-paren-delay 0)
-(setq show-paren-style 'mixed)
+;(cua-mode t)
+;(setq cua-enable-cua-keys nil)
 
 (add-hook 'c-mode-common-hook
           (lambda ()
@@ -78,7 +66,8 @@
 ;; macOS
 ;; Control -> C, option -> meta, command -> super
 (when (eq system-type 'darwin)
-  (setq mac-command-modifier 'super))
+  (setq mac-command-modifier 'super)
+  (setq mac-option-modifier 'meta))
 
 (keyboard-translate ?\C-h ?\C-?)
 
@@ -123,15 +112,16 @@
 ;;; popwin.el
 (use-package popwin
   :config
-  (popwin-mode 1))
+  (popwin-mode 1)
+  (push '("*Codic Result*") popwin:special-display-config)
+  (push '("*quickrun*") popwin:special-display-config))
 
 ;; ace-jump-mode
 (use-package ace-jump-mode
   :bind (("C-:" . ace-jump-char-mode)
          ("C-;" . ace-jump-word-mode)
          ("C-M-;" . ace-jump-line-mode))
-  :init
-         (setq ace-jump-word-mode-use-query-char nil)
+  :init  (setq ace-jump-word-mode-use-query-char nil)
          (append "aoeuidhtns',.pyfgcrl;qjkxbmwvz" nil)
 ;; ace-jump-word-modeのとき文字を尋ねないようにする
          (setq ace-jump-word-mode-use-query-char nil))
@@ -139,27 +129,28 @@
 ;; all-the-icons-dired
 (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
 
+;; auto-complie.el
 (use-package auto-compile :no-require t :defer t :ensure t
     :diminish "C"
     :init
     (add-hook 'emacs-lisp-mode-hook 'auto-compile-mode))
 
-;; anzu
+;; anzu.el
 (use-package anzu
   :no-require
   :bind (("C-c r" . anzu-query-replace)
          ("C-c R" . anzu-query-replace-regexp))
   :config
   (global-anzu-mode +1)
-  (setq anzu-use-migemo t)
-  (setq anzu-search-threshold 1000)
-  (setq anzu-minimum-input-length 3))
+  (set-variable 'anzu-use-migemo t)
+  (set-variable 'anzu-search-threshold 1000)
+  (set-variable 'anzu-minimum-input-length 3))
 
 ;; codic
 (use-package codic
   :config
-  (setq codic-api-token (my-lisp-load "codic-api-token"))
-  (push '("*Codic Result*") popwin:special-display-config))
+  (setq codic-api-token (my-lisp-load "codic-api-token")))
+
 
 ;; cmake-ide
 (use-package cmake-ide
@@ -190,9 +181,7 @@
   :bind
   (("s-y" . 'elscreen-create)
   ("C-<tab>" . elscreen-next)
-  ;("s-M-<right>" . elscreen-next)
   ("C-S-<tab>" . elscreen-previous)
-  ;("s-M-<left>" . elscreen-previous)
   ("s-," . elscreen-kill))
   :init
   (elscreen-start)
@@ -233,34 +222,54 @@
   ;;         ("dict" . "OnlineDict")
   ;;         ("*WL:Message*" . "Wanderlust"))))
 
-;; quickrun.el
-(use-package quickrun)
-(push '("*quickrun*") popwin:special-display-config)
-
-;; Add C++ command for C11 and set it default in C++ file.
-(quickrun-add-command "c++/clang++"
-                      '((:command . "clang++")
-                        (:exec . ("%c -std=c++11 -lstdc++ %o -o %e %s"
-                                     "%e %a"))
-                        (:remove . ("%e")))
-                      :default "c++")
-
-(quickrun-set-default "c++" "c++/clang++")
-
-;;; path:
-(when (memq window-system '(mac ns))
+;; exec-path-from-shell.el
+(use-package exec-path-from-shell
+  :if (memq window-system '(mac ns))
+  :ensure t
+  :commands (exec-path-from-shell-initialize)
+  :config
   (exec-path-from-shell-initialize))
 
+;; quickrun.el
+(use-package quickrun
+  :functions (quickrun-add-command quickrun-set-default)
+  :config
+  ;; Add C++ command for C11 and set it default in C++ file.
+  (quickrun-add-command "c++/clang++"
+    '((:command . "clang++")
+      (:exec . ("%c -std=c++11 -lstdc++ %o -o %e %s"
+                "%e %a"))
+      (:remove . ("%e")))
+    :default "c++")
+  (quickrun-set-default "c++" "c++/clang++"))
+
+
+
+;(when (memq window-system '(mac ns))
+ ; (exec-path-from-shell-initialize))
+
 ;; company
-(when (locate-library "company")
-  (global-company-mode 1)
-  (global-set-key (kbd "C-M-i") 'company-complete)
+;(when (locate-library "company")
+ ; (global-company-mode 1)
+  ;(global-set-key (kbd "C-M-i") 'company-complete)
   ;; (setq company-idle-delay nil) ; 自動補完をしない
+  ;(define-key company-active-map (kbd "C-n") 'company-select-next)
+  ;(define-key company-active-map (kbd "C-p") 'company-select-previous)
+  ;(define-key company-search-map (kbd "C-n") 'company-select-next)
+  ;(define-key company-search-map (kbd "C-p") 'company-select-previous)
+  ;(define-key company-active-map (kbd "<tab>") 'company-complete-selection))
+
+(use-package company
+  :diminish company-mode
+  :bind ("C-M-i" . company-complete)
+  :config
+  (global-company-mode 1)
   (define-key company-active-map (kbd "C-n") 'company-select-next)
   (define-key company-active-map (kbd "C-p") 'company-select-previous)
   (define-key company-search-map (kbd "C-n") 'company-select-next)
   (define-key company-search-map (kbd "C-p") 'company-select-previous)
   (define-key company-active-map (kbd "<tab>") 'company-complete-selection))
+
 
 ;; company-rtags
 (use-package company-rtags)
@@ -277,9 +286,7 @@
   :config
   (setq migemo-command "cmigemo")
   (setq migemo-options '("-q" "--emacs"))
-
   (setq migemo-dictionary "/usr/local/share/migemo/utf-8/migemo-dict")
-
   (setq migemo-user-dictionary nil)
   (setq migemo-regex-dictionary nil)
   (setq migemo-coding-system 'utf-8-unix)
@@ -324,16 +331,38 @@
 
 ;;(require 'flycheck)
 ;;(require 'flycheck-pos-tip)
-(with-eval-after-load 'flycheck
-  (flycheck-pos-tip-mode))
+;(with-eval-after-load 'flycheck
+ ; (flycheck-pos-tip-mode))
 
 (eval-after-load "flycheck"
   '(progn
      (when (locate-library "flycheck-irony")
        (flycheck-irony-setup))))
+(use-package flycheck
+  :init
+  (with-eval-after-load 'flycheck
+    (flycheck-pos-tip-mode))
+
+  (eval-after-load "flycheck"
+    '(progn
+       (when (locate-library "flycheck-irony")
+         (flycheck-irony-setup))))
+  )
 
 ;; magit
 (use-package magit)
+
+;; paren.el
+(show-paren-mode t)
+(set-variable 'show-paren-delay 0)
+(set-variable 'show-paren-style 'mixed)
+
+;; recentf.el
+(set-variable 'recentf-max-saved-items 2000)
+(set-variable 'recentf-auto-cleanup 'never)
+(set-variable 'recentf-exclude '("/recentf" "COMMIT_EDITMSG" "/.?TAGS" "^/sudo:" "/\\.emacs\\.d/games/*-scores" "/\\.emacs\\.d/\\.cask/"))
+(set-variable ' recentf-auto-save-timer (run-with-idle-timer 30 t 'recentf-save-list))
+(recentf-mode 1)
 
 ;; right-click-context
 (use-package right-click-context
@@ -349,57 +378,65 @@
   (volatile-highlights-mode t))
 
 ;; helm
+;(use-package helm
+ ; :defer t
+ ; :ensure t
+ ; :defines (helm-map))
+
 (require 'helm)
 (require 'helm-config)
 
+;(use-package helm-config
+ ; :init
+ ; (require 'helm)
 ;; The default "C-x c" is quite close to "C-x C-c", which quits Emacs.
 ;; Changed to "C-c h". Note: We must set "C-c h" globally, because we
 ;; cannot change `helm-command-prefix-key' once `helm-config' is loaded.
-(global-set-key (kbd "C-c h") 'helm-command-prefix)
-(global-set-key (kbd "C-x b") 'helm-mini)
-(global-unset-key (kbd "C-x c"))
-(global-set-key (kbd "C-x C-f") 'helm-find-files)
-(global-set-key (kbd "M-x") 'helm-M-x)
-(global-set-key (kbd "M-y") 'helm-show-kill-ring)
-(define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
-(define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB work in terminal
-(define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
-(global-set-key (kbd "C-c h g") 'helm-google-suggest)
-;;(bind-key "C-c っ" 'helm-recentf)
-(global-set-key (kbd "C-c t") 'helm-recentf)
+  (global-set-key (kbd "C-c h") 'helm-command-prefix)
+  (global-set-key (kbd "C-x b") 'helm-mini)
+  (global-unset-key (kbd "C-x c"))
+  (global-set-key (kbd "C-x C-f") 'helm-find-files)
+  (global-set-key (kbd "M-x") 'helm-M-x)
+  (global-set-key (kbd "M-y") 'helm-show-kill-ring)
+  (define-key helm-map (kbd "<tab>") 'helm-execute-persistent-action) ; rebind tab to run persistent action
+  (define-key helm-map (kbd "C-i") 'helm-execute-persistent-action) ; make TAB work in terminal
+  (define-key helm-map (kbd "C-z")  'helm-select-action) ; list actions using C-z
+  (global-set-key (kbd "C-c h g") 'helm-google-suggest)
+  ;;(bind-key "C-c っ" 'helm-recentf)
+  (global-set-key (kbd "C-c t") 'helm-recentf)
 
-(when (executable-find "curl")
+  (when (executable-find "curl")
                                         ;(setq helm-google-suggest-use-curl-p t))
-  (setq helm-net-prefer-curl t))
+    (setq helm-net-prefer-curl t))
 
-;(setq helm-split-window-in-side-p           t ; open helm buffer inside current window, not occupy whole other window
-(setq helm-split-window-inside-p           t ; open helm buffer inside current window, not occupy whole other window
-      helm-move-to-line-cycle-in-source     t ; move to end or beginning of source when reaching top or bottom of source.
-      helm-ff-search-library-in-sexp        t ; search for library in `require' and `declare-function' sexp.
-      helm-scroll-amount                    8 ; scroll 8 lines other window using M-<next>/M-<prior>
-      helm-ff-file-name-history-use-recentf t
-      helm-echo-input-in-header-line t)
+                                        ;(setq helm-split-window-in-side-p           t ; open helm buffer inside current window, not occupy whole other window
+  (setq helm-split-window-inside-p           t ; open helm buffer inside current window, not occupy whole other window
+        helm-move-to-line-cycle-in-source     t ; move to end or beginning of source when reaching top or bottom of source.
+        helm-ff-search-library-in-sexp        t ; search for library in `require' and `declare-function' sexp.
+        helm-scroll-amount                    8 ; scroll 8 lines other window using M-<next>/M-<prior>
+        helm-ff-file-name-history-use-recentf t
+        helm-echo-input-in-header-line t)
 
-(defun spacemacs//helm-hide-minibuffer-maybe ()
-  "Hide minibuffer in Helm session if we use the header line as input field."
-  (when (with-helm-buffer helm-echo-input-in-header-line)
-    (let ((ov (make-overlay (point-min) (point-max) nil nil t)))
-      (overlay-put ov 'window (selected-window))
-      (overlay-put ov 'face
-                   (let ((bg-color (face-background 'default nil)))
-                     `(:background ,bg-color :foreground ,bg-color)))
-      (setq-local cursor-type nil))))
+  (defun spacemacs//helm-hide-minibuffer-maybe ()
+    "Hide minibuffer in Helm session if we use the header line as input field."
+    (when (with-helm-buffer helm-echo-input-in-header-line)
+      (let ((ov (make-overlay (point-min) (point-max) nil nil t)))
+        (overlay-put ov 'window (selected-window))
+        (overlay-put ov 'face
+                     (let ((bg-color (face-background 'default nil)))
+                       `(:background ,bg-color :foreground ,bg-color)))
+        (setq-local cursor-type nil))))
 
-(setq helm-M-x-fuzzy-match t) ;; optional fuzzy matching for helm-M-x
+  (setq helm-M-x-fuzzy-match t) ;; optional fuzzy matching for helm-M-x
 
-(add-hook 'helm-minibuffer-set-up-hook
-          'spacemacs//helm-hide-minibuffer-maybe)
+  (add-hook 'helm-minibuffer-set-up-hook
+            'spacemacs//helm-hide-minibuffer-maybe)
 
-(setq helm-autoresize-max-height 40)
-(setq helm-autoresize-min-height 20)
-(helm-autoresize-mode 1)
+  (setq helm-autoresize-max-height 40)
+  (setq helm-autoresize-min-height 20)
+  (helm-autoresize-mode 1)
 
-(helm-mode 1)
+  (helm-mode 1)
 
 ;; neotree
 (use-package neotree
@@ -440,7 +477,7 @@
      (diminish ,mode ,new-name)))
 
 (safe-diminish "helm-mode" 'helm-mode)
-(safe-diminish "company" 'company-mode)
+;(safe-diminish "company" 'company-mode)
 (safe-diminish "irony" 'irony-mode)
 ;;(safe-diminish "undo-tree" 'undo-tree-mode)
 ;;(safe-diminish "volatile-highlights" 'volatile-highlights-mode)
@@ -451,7 +488,6 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(irony-additional-clang-options (quote ("-std=c++11")))
- '(mac-option-modifier (quote meta))
  '(package-selected-packages
    (quote
     (auto-compile all-the-icons codic ace-jump-mode flycheck-popup-tip ac-helm yasnippet web-mode use-package smex smartparens projectile prodigy popwin pallet nyan-mode multiple-cursors magit idle-highlight-mode htmlize flycheck-cask expand-region exec-path-from-shell drag-stuff)))

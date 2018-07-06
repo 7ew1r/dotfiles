@@ -55,7 +55,7 @@ zle -N peco-select-ghq
 #### Keybinding ################################################################
 bindkey -e               # emacs-like keybind
 bindkey '^r' peco-select-history
-bindkey '^=' peco-select-ghq
+bindkey '^[g' peco-select-ghq
 
 #### Aliases ################################################################
 alias la='ls -a'

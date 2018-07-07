@@ -18,11 +18,7 @@ $ cd ~
 $ git clone https://github.com/RTewi/dotfiles.git
 ```
 
-<<<<<<< HEAD
 ### 2. Install 3rd-dependencies
-=======
-### 1. Install 3rd-dependencies
->>>>>>> fb8b233a3b917e2d78718c04860fd1e0a4b5f9f4
 
 - [peco](https://github.com/peco/peco)
 - [ghq](https://github.com/motemen/ghq)

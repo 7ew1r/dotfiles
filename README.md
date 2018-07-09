@@ -6,8 +6,11 @@ TEWi_R's dotfiles
 
 - macOS Sierra 10.12.6
   - [Homebrew](https://brew.sh)
+  - [anyenv](https://github.com/riywo/anyenv)
 - zsh
+  - [pure](https://github.com/sindresorhus/pure)
 - tmux
+
 
 ## Install
 
@@ -38,7 +41,7 @@ export ZDOTDIR=$HOME/.zsh
 $ sh script/install.sh
 ```
 
-### 5. Add Local Setting
+### 5. Add local settings
 
 ``` shell
 $ cp $HOME/dotfiles/.zsh/.zshrc_local.temp $HOME/dotfiles/.zsh/.zshrc_local

@@ -3,5 +3,8 @@ alias ls="gls --color=auto -B"
 # brew doctor実行時、pyenvのPATHを抜く（Waring対策）
 # alias brew="env PATH=${PATH/\/Users\/Arito\/\.pyenv\/shims:/} brew"
 
+# brew install gnu-sed
+alias sed='gsed'
+
 #### Functions ################################################################
 function chpwd() { gls --color=auto -B } # ls after cd

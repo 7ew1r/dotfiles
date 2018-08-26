@@ -21,6 +21,9 @@ zstyle ':zle:*' word-chars " /=;@:{},|"
 zstyle ':zle:*' word-style unspecified
 
 #### Prompt ################################################################
+# https://github.com/sindresorhus/pure 
+# npm install --global pure-prompt
+
 #if [ -e $POWERLINEFILEPATH ]; then
 #    powerline-daemon -q
 #    . $POWERLINEFILEPATH

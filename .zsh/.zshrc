@@ -2,8 +2,6 @@
 # LANG
 export LANG=ja_JP.UTF-8
 
-# POWERLINEFILEPATH=path/to/powerline.zsh
-
 # load .zshrc_*
 [ -f $ZDOTDIR/.zshrc_`uname` ] && . $ZDOTDIR/.zshrc_`uname`
 [ -f $ZDOTDIR/.zshrc_local ] && . $ZDOTDIR/.zshrc_local
@@ -24,14 +22,9 @@ zstyle ':zle:*' word-style unspecified
 # https://github.com/sindresorhus/pure 
 # npm install --global pure-prompt
 
-#if [ -e $POWERLINEFILEPATH ]; then
-#    powerline-daemon -q
-#    . $POWERLINEFILEPATH
-#else
-    autoload -U promptinit
-    promptinit
-    prompt pure
-#fi
+autoload -U promptinit
+promptinit
+prompt pure
 
 #### Functions ################################################################
 function peco-select-history() {
@@ -70,7 +63,7 @@ alias mv='mv -i'
 alias mkdir='mkdir -p'
 alias sudo='sudo ' # enable aliases after 'sudo'
 
-# グローバルエイリアス
+# global alias 
 alias -g L='| less'
 alias -g G='| grep'
 
@@ -99,7 +92,6 @@ setopt hist_no_store        # don't save 'history' cmd in history
 setopt extended_history     # add timestamps to history
 
 # Correction
-setopt dvorak
 setopt correct
 setopt correctall
 

@@ -4,15 +4,15 @@ TEWi_R's dotfiles
 
 ## Environments
 
-- macOS Sierra 10.12.6
+- macOS Mojave 10.14.3 
   - [Homebrew](https://brew.sh)
   - [anyenv](https://github.com/riywo/anyenv)
 - zsh
-  - [pure](https://github.com/sindresorhus/pure)
-- tmux
+  - Prompt : [pure](https://github.com/sindresorhus/pure)
+- ~~tmux~~
 
 
-## Install
+## Installation
 
 ### 1. Clone repo
 

@@ -2,9 +2,6 @@
 # LANG
 export LANG=ja_JP.UTF-8
 
-# load .zshrc_*
-[ -f $ZDOTDIR/.zshrc_`uname` ] && . $ZDOTDIR/.zshrc_`uname`
-[ -f $ZDOTDIR/.zshrc_local ] && . $ZDOTDIR/.zshrc_local
 
 # 色を使用出来るようにする
 autoload -Uz colors
@@ -153,3 +150,8 @@ zstyle ':completion:*:sudo:*' command-path /usr/local/sbin /usr/local/bin \
 
 # ps コマンドのプロセス名補完
 zstyle ':completion:*:processes' command 'ps x -o pid,s,args'
+
+
+# load .zshrc_*
+[ -f $ZDOTDIR/.zshrc_`uname` ] && . $ZDOTDIR/.zshrc_`uname`
+[ -f $ZDOTDIR/.zshrc_local ] && . $ZDOTDIR/.zshrc_local

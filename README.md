@@ -18,7 +18,7 @@ TEWi_R's dotfiles
 
 ``` shell
 $ cd ~
-$ git clone https://github.com/RTewi/dotfiles.git
+$ git clone https://github.com/7ew1r/dotfiles.git
 ```
 
 ### 2. Install 3rd-dependencies

@@ -2,49 +2,53 @@
 
 TEWi_R's dotfiles
 
+- [fish shell](https://fishshell.com/)
+  - [Fisher](https://github.com/jorgebucaran/fisher) (Package manager)
+- [peco](https://github.com/peco/peco)
+- [ghq](https://github.com/motemen/ghq)
+- vim
+- ~~zsh~~ [Discontinued]
+- ~~tmux~~ [Discontinued]
+
 ## Environments
 
-- macOS Mojave 10.14.3 
-  - [Homebrew](https://brew.sh)
-  - [anyenv](https://github.com/riywo/anyenv)
-- zsh
-  - Prompt : [pure](https://github.com/sindresorhus/pure)
-- ~~tmux~~
+- macOS Mojave 10.14.6
+- Ubuntu 18.04
+
+## Requirement
+
+- macOS
+  - [Homebrew](https://brew.sh/index_ja)
+- Ubuntu 18.04
+  - [Linuxbrew](https://docs.brew.sh/Homebrew-on-Linux)
 
 
 ## Installation
 
-### 1. Clone repo
+### 1. Install the fish shell
 
-``` shell
-$ cd ~
-$ git clone https://github.com/RTewi/dotfiles.git
+```shell
+$ brew install fish
 ```
 
 ### 2. Install 3rd-dependencies
 
-- [peco](https://github.com/peco/peco)
-- [ghq](https://github.com/motemen/ghq)
-- coreutiles
+```shell
+$ brew install peco ghq
+````
 
-### 3. Make .zshenv
-
-Add the following on `~/.zshenv`
+### 3. Clone repo
 
 ``` shell
-export ZDOTDIR=$HOME/.zsh
+$ cd ~
+$ git clone https://github.com/7ewir/dotfiles.git
 ```
 
-### 4. Run the script
+### 4. Run the install script
 
-``` shell
+```shell
+$ cd ~/dotfiles
 $ sh script/install.sh
 ```
 
-### 5. Add local settings
 
-``` shell
-$ cp $HOME/dotfiles/.zsh/.zshrc_local.temp $HOME/dotfiles/.zsh/.zshrc_local
-$ vi $HOME/dotfiles/.zsh/.zshrc_local
-add local setting here
-```

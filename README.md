@@ -4,9 +4,12 @@ TEWi_R's dotfiles
 
 - [fish shell](https://fishshell.com/)
   - [Fisher](https://github.com/jorgebucaran/fisher) (Package manager)
-- [peco](https://github.com/peco/peco)
-- [ghq](https://github.com/motemen/ghq)
+    - decors/fish-ghq
+    - oh-my-fish/plugin-balias
+    - oh-my-fish/plugin-peco
+    - oh-my-fish/theme-bobthefish
 - vim
+- peco
 - ~~zsh~~ [Discontinued]
 - ~~tmux~~ [Discontinued]
 
@@ -19,8 +22,12 @@ TEWi_R's dotfiles
 
 - macOS
   - [Homebrew](https://brew.sh/index_ja)
-- Ubuntu 18.04
+- Ubuntu
   - [Linuxbrew](https://docs.brew.sh/Homebrew-on-Linux)
+- [peco](https://github.com/peco/peco)
+- [ghq](https://github.com/motemen/ghq)
+- [anyenv](https://github.com/anyenv/anyenv)
+- Powerline font
 
 
 ## Installation
@@ -31,10 +38,23 @@ TEWi_R's dotfiles
 $ brew install fish
 ```
 
+```shell
+$ which fish
+/path/to/fish
+```
+
+```shell
+$ sudo vi /etc/shells
+# add /path/to/fish
+/path/to/fish
+```
+
+
+
 ### 2. Install 3rd-dependencies
 
 ```shell
-$ brew install peco ghq
+$ brew install peco ghq vim anyenv
 ````
 
 ### 3. Clone repo
@@ -42,13 +62,18 @@ $ brew install peco ghq
 ``` shell
 $ cd ~
 $ git clone https://github.com/7ewir/dotfiles.git
-```
+​```÷
 
 ### 4. Run the install script
 
-```shell
+​```shell
 $ cd ~/dotfiles
 $ sh script/install.sh
 ```
 
+## Uninstallation
 
+```shell
+$ sh script/uninstall.sh
+$ rm -rf dotfiles
+```

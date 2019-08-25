@@ -3,3 +3,7 @@ function fish_user_key_bindings
 end
 
 set -g GHQ_SELECTOR peco
+
+# anyenv
+set -x PATH ~$HOME/.anyenv/bin $PATH
+status --is-interactive; and source (anyenv init -|psub)

@@ -45,7 +45,6 @@ $ which fish
 
 ```shell
 $ sudo vi /etc/shells
-# add /path/to/fish
 /path/to/fish
 ```
 
@@ -57,16 +56,18 @@ $ sudo vi /etc/shells
 $ brew install peco ghq vim anyenv
 ````
 
+
+
 ### 3. Clone repo
 
 ``` shell
 $ cd ~
 $ git clone https://github.com/7ewir/dotfiles.git
-​```÷
+```÷
 
 ### 4. Run the install script
 
-​```shell
+```shell
 $ cd ~/dotfiles
 $ sh script/install.sh
 ```

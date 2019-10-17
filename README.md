@@ -63,7 +63,7 @@ $ brew install peco ghq vim anyenv
 ``` shell
 $ cd ~
 $ git clone https://github.com/7ewir/dotfiles.git
-```÷
+```
 
 ### 4. Run the install script
 

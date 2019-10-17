@@ -4,6 +4,9 @@ end
 
 set -g GHQ_SELECTOR peco
 
-# anyenv
-set -x PATH ~$HOME/.anyenv/bin $PATH
-status --is-interactive; and source (anyenv init -|psub)
+#anyenv
+set PATH $HOME/bin $HOME/.anyenv/bin $PATH
+anyenv init - fish | source
+
+
+set PATH /usr/local/bin /usr/sbin $PATH

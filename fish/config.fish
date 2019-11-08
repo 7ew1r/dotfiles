@@ -10,3 +10,6 @@ anyenv init - fish | source
 
 
 set PATH /usr/local/bin /usr/sbin $PATH
+
+# balias
+balias killdss 'find . -name ".DS_Store" | xargs rm'

@@ -7,7 +7,7 @@ set -g GHQ_SELECTOR peco
 #anyenv
 set PATH $HOME/bin $HOME/.anyenv/bin $PATH
 anyenv init - fish | source
-
+eval (pyenv init - | source)
 
 set PATH /usr/local/bin /usr/sbin $PATH
 

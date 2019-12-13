@@ -9,6 +9,9 @@ set PATH $HOME/bin $HOME/.anyenv/bin $PATH
 anyenv init - fish | source
 eval (pyenv init - | source)
 
+# thefuck
+thefuck --alias | source 
+
 set PATH /usr/local/bin /usr/sbin $PATH
 
 # balias

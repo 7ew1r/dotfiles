@@ -16,3 +16,5 @@ set PATH /usr/local/bin /usr/sbin $PATH
 
 # balias
 balias killdss 'find . -name ".DS_Store" | xargs rm'
+balias fishrc 'vim ~/.config/fish/config.fish'
+balias update_env 'sh $HOME/src/github.com/7ew1r/shellscripts/update_env.sh'

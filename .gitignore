@@ -149,3 +149,4 @@ $RECYCLE.BIN/
 .zshrc_local
 .zcompdump
 .zsh_history
+fish_variables

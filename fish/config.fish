@@ -12,7 +12,7 @@ anyenv init - fish | source
 # thefuck
 thefuck --alias | source 
 
-set PATH /usr/local/bin /usr/sbin $PATH
+set PATH /usr/local/bin /usr/sbin $HOME/development/flutter/bin $PATH
 
 pyenv init - | source
 # balias

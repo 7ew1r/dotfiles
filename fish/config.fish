@@ -16,7 +16,9 @@ set PATH /usr/local/bin /usr/sbin $HOME/development/flutter/bin $PATH
 
 pyenv init - | source
 # balias
+balias g git
 balias killdss 'find . -name ".DS_Store" | xargs rm'
 balias fishrc 'vim ~/.config/fish/config.fish'
 balias dotfiles 'cd ~/dotfiles'
 balias update_env 'sh $HOME/src/github.com/7ew1r/shellscripts/update_env.sh'
+

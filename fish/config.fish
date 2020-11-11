@@ -5,16 +5,20 @@ end
 set -g GHQ_SELECTOR peco
 
 #anyenv
-set PATH $HOME/bin $HOME/.anyenv/bin $PATH
-anyenv init - fish | source
-
+if test -d $HOME/.anyenv
+  set PATH $HOME/bin $HOME/.anyenv/bin $PATH
+  anyenv init - fish | source
+end
 
 # thefuck
 thefuck --alias | source 
 
 set PATH /usr/local/bin /usr/sbin $HOME/development/flutter/bin $PATH
 
-pyenv init - | source
+if test -d $HOME/.anyenv
+  pyenv init - | source
+end 
+
 # balias
 balias g git
 balias killdss 'find . -name ".DS_Store" | xargs rm'

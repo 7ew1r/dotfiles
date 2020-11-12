@@ -1,0 +1,18 @@
+[[plugins]]
+repo = 'Shougo/dein.vim'
+
+[[plugins]]
+repo = 'Shougo/defx.nvim'
+
+[[plugins]]
+repo = 'Shougo/denite.nvim'
+
+[[plugins]]
+repo = 'jiangmiao/auto-pairs'
+
+[[plugins]]
+repo = "neoclide/coc.nvim"
+rev = 'release'
+hook_add = """
+source ~/.config/nvim/plugins/coc.rc.vim
+"""

@@ -23,11 +23,13 @@ end
 # balias
 balias g git
 balias killdss 'find . -name ".DS_Store" | xargs rm'
-balias fishrc 'vim ~/.config/fish/config.fish'
+balias fishrc 'nvim ~/.config/fish/config.fish'
+balias nvimrc 'nvim ~/.config/nvim/init.vim'
 balias dotfiles 'cd ~/dotfiles'
 balias update_env 'sh $HOME/src/github.com/7ew1r/shellscripts/update_env.sh'
 balias gcmain 'git config --local user.name "7ew1r" && git config --local user.email "art.sht.0317@gmail.com"'
 balias gclas 'git config --local user.name "ashiihata" && git config --local user.email "shiihata@lifearcsystem.co.jp"'
+
 
 # starship
 starship init fish | source

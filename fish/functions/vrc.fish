@@ -6,5 +6,12 @@ function vrc
     return 1 
   end
 
-  cd (ls -d /mnt/d/repos/*/ | peco)
+  set -l projectDir (ls -d /mnt/d/repos/* | peco)
+  set -l projectDirWin (echo $projectDir | sed -e 's/\/mnt\///g' | sed -e 's/^./\0:/g' | sed -e 's/\//\\\\/g')
+  
+  # move windows script folder
+  cd "/mnt/c/Users/Arito Shiihata/scripts"
+  cmd.exe /c "open-unity-project.bat $projectDirWin"
+
+  cd $projectDir
 end

@@ -4,6 +4,7 @@ set cursorcolumn
 set list
 set listchars=tab:»-,trail:-,eol:↲,extends:»,precedes:«,nbsp:%
 set clipboard+=unnamedplus
+colorscheme hybrid
 
 "dein Scripts-----------------------------
 if &compatible

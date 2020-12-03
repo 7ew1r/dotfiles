@@ -10,8 +10,8 @@ TEWi_R's dotfiles
     - oh-my-fish/theme-bobthefish
 - vim
 - peco
+- tmux
 - ~~zsh~~ [Discontinued]
-- ~~tmux~~ [Discontinued]
 
 ## Environments
 
@@ -63,16 +63,12 @@ cd ~/dotfiles
 sh script/install.sh
 ```
 
-### 5. Run
-
-```shell
-fish
-```
-
 ## Uninstallation
 
 ```shell
 unlink $HOME/.vimrc
+unlink $HOME/.tmux.conf
+unlink $HOME/.config/nvim
 unlink $HOME/.config/peco
 unlink $HOME/.config/fish
 unlink $HOME/.config/fisher

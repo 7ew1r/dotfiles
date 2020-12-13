@@ -5,7 +5,7 @@ set list
 set listchars=tab:»-,trail:-,eol:↲,extends:»,precedes:«,nbsp:%
 set clipboard+=unnamedplus
 colorscheme hybrid
-
+inoremap <silent> jj <ESC>
 "dein Scripts-----------------------------
 if &compatible
   set nocompatible               " Be iMproved

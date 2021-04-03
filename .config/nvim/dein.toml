@@ -36,3 +36,7 @@ repo = 'vim-airline/vim-airline'
 hook_add = """
 source ~/.config/nvim/plugins/vim-airline.rc.vim
 """
+
+# 左端に git の差分を表示
+[[plugins]]
+repo = 'airblade/vim-gitgutter'

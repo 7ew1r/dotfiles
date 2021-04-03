@@ -7,6 +7,11 @@ set clipboard+=unnamedplus
 colorscheme hybrid
 inoremap <silent> jj <ESC>
 
+" タブではなくスペースを使用
+" https://yu8mada.com/2018/08/26/i-ll-explain-vim-s-5-tab-and-space-related-somewhat-complicated-options-as-simply-as-possible/
+set tabstop=4
+set shiftwidth=4
+set expandtab
 
 set mouse=a
 

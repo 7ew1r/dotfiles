@@ -33,3 +33,6 @@ balias gclas 'git config --local user.name "ashiihata" && git config --local use
 
 # starship
 starship init fish | source
+
+# own scripts
+set PATH ~/myscripts $PATH

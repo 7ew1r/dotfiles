@@ -8,7 +8,8 @@ autocmd FileType defx call s:defx_my_settings()
     function! s:defx_my_settings() abort
      " Define mappings
       nnoremap <silent><buffer><expr> <CR>
-     \ defx#do_action('open')
+     "\ defx#do_action('open')
+     \ defx#do_action('drop')
       nnoremap <silent><buffer><expr> c
      \ defx#do_action('copy')
       nnoremap <silent><buffer><expr> m
@@ -72,3 +73,12 @@ call defx#custom#column('git', 'indicators', {
   \ 'Deleted'   : '✖',
   \ 'Unknown'   : '?'
   \ })
+call defx#custom#option('_', {
+      \ 'winwidth': 40,
+      \ 'split': 'vertical',
+      \ 'direction': 'topleft',
+      \ 'show_ignored_files': 1,
+      \ 'buffer_name': 'exlorer',
+      \ 'toggle': 1,
+      \ 'resume': 1,
+      \ })

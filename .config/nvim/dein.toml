@@ -9,6 +9,15 @@ source ~/.config/nvim/plugins/defx.rc.vim
 """
 
 [[plugins]]
+repo = 'kristijanhusak/defx-git'
+
+[[plugins]]
+repo = 'kristijanhusak/defx-icons'
+
+[[plugins]]
+repo = 'ryanoasis/vim-devicons'
+
+[[plugins]]
 repo = 'Shougo/denite.nvim'
 
 [[plugins]]

@@ -78,3 +78,12 @@ if dein#check_install()
 endif
 
 "End dein Scripts-------------------------
+
+"-------------------------------------------------------------------------------
+" DevIcons
+"-------------------------------------------------------------------------------
+
+"set guifont=Sauce\ Code\ Pro\ Light\ Nerd\ Font\ Complete\ Windows\ Compatible:h11
+set guifont=Hack\ Nerd\ Font\ Mono\ Compatible:h11
+let g:webdevicons_enable_vimfiler = 1
+

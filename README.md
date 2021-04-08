@@ -24,6 +24,7 @@ TEWi_R's dotfiles
 - [peco](https://github.com/peco/peco)
 - [ghq](https://github.com/motemen/ghq)
 - [anyenv](https://github.com/anyenv/anyenv)
+- [powerline](https://github.com/powerline/powerline)
 - Powerline font
 
 ## Installation
@@ -47,6 +48,7 @@ sudo vi /etc/shells # append /path/to/fish at last
 
 ```shell
 brew install peco ghq vim anyenv
+pip install powerline-status
 ```
 
 ### 3. Clone repo

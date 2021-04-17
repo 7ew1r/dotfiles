@@ -15,7 +15,7 @@ TEWi_R's dotfiles
 
 ## Environments
 
-- macOS Mojave 10.14.6
+- macOS Big Sur 11.2.3
 - Ubuntu 18.04 (WSL)
 
 ## Requirement

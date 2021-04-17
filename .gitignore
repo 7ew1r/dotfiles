@@ -150,3 +150,5 @@ $RECYCLE.BIN/
 .zcompdump
 .zsh_history
 fish_variables
+
+.config/nvim/pack/

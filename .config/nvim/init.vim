@@ -7,6 +7,13 @@ set clipboard+=unnamedplus
 colorscheme hybrid
 inoremap <silent> jj <ESC>
 
+nnoremap sj <C-w>j
+nnoremap sk <C-w>k
+nnoremap sl <C-w>l
+nnoremap sh <C-w>h
+nnoremap ss :<C-u>sp<CR><C-w>j
+nnoremap sv :<C-u>vs<CR><C-w>l
+
 " タブではなくスペースを使用
 " https://yu8mada.com/2018/08/26/i-ll-explain-vim-s-5-tab-and-space-related-somewhat-complicated-options-as-simply-as-possible/
 set tabstop=4

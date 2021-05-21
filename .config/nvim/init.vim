@@ -1,4 +1,5 @@
 set number
+set termguicolors
 set cursorline
 set cursorcolumn
 set list
@@ -72,3 +73,7 @@ endif
 set guifont=Hack\ Nerd\ Font\ Mono\ Compatible:h11
 let g:webdevicons_enable_vimfiler = 1
 
+" Providers
+let g:python_host_prog = $HOME . '/.anyenv/envs/pyenv/versions/neovim2/bin/python'
+let g:python3_host_prog = $HOME . '/.anyenv/envs/pyenv/versions/neovim3/bin/python'
+let g:ruby_host_prog = $HOME . '/.anyenv/envs/rbenv/versions/2.6.6/bin/neovim-ruby-host'

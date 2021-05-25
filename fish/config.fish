@@ -22,6 +22,7 @@ end
 
 # balias
 balias g git
+balias t tig
 balias killdss 'find . -name ".DS_Store" | xargs rm'
 balias fishrc 'nvim ~/.config/fish/config.fish'
 balias nvimrc 'nvim ~/.config/nvim/init.vim'

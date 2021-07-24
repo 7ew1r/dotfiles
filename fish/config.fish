@@ -30,7 +30,7 @@ balias dotfiles 'cd ~/dotfiles'
 balias update_env 'sh $HOME/src/github.com/7ew1r/shellscripts/update_env.sh'
 balias gcmain 'git config --local user.name "7ew1r" && git config --local user.email "art.sht.0317@gmail.com"'
 balias gclas 'git config --local user.name "ashiihata" && git config --local user.email "shiihata@lifearcsystem.co.jp"'
-
+balias sail vendor/bin/sail
 
 # starship
 starship init fish | source

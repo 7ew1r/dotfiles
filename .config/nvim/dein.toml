@@ -24,9 +24,6 @@ source ~/.config/nvim/plugins/denite.rc.vim
 """
 
 [[plugins]]
-repo = 'jiangmiao/auto-pairs'
-
-[[plugins]]
 repo = "neoclide/coc.nvim"
 rev = 'release'
 hook_add = """

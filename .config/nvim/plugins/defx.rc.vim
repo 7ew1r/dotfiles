@@ -1,5 +1,5 @@
 nnoremap <silent>sf :<C-u>Defx -listed -resume
-      \ -columns=indent:mark:icon:icons:filename:git:size
+      \ -columns=indent:git:mark:icon:icons:filename:git:size
       \ -buffer-name=tab`tabpagenr()`
       \ `expand('%:p:h')` -search=`expand('%:p')`<CR>
 nnoremap <silent>fi :<C-u>Defx -new `expand('%:p:h')` -search=`expand('%:p')`<CR>
@@ -81,4 +81,5 @@ call defx#custom#option('_', {
       \ 'buffer_name': 'exlorer',
       \ 'toggle': 1,
       \ 'resume': 1,
+      \ 'columns': 'indent:git'
       \ })

@@ -65,6 +65,16 @@ cd ~/dotfiles
 sh script/install.sh
 ```
 
+### Git
+
+1. Install node.js
+2. Install commitizen
+
+```
+npm install -g commitizen
+npm install -g cz-conventional-changelog-ja
+```
+
 ## Uninstallation
 
 ```shell
@@ -74,4 +84,5 @@ unlink $HOME/.config/nvim
 unlink $HOME/.config/peco
 unlink $HOME/.config/fish
 unlink $HOME/.config/fisher
+unlink $HOME/.czrc
 ```

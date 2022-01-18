@@ -6,3 +6,4 @@ ln -sfv $HOME/dotfiles/fisher $HOME/.config
 ln -sfv $HOME/dotfiles/.tmux.conf $HOME
 ln -sfv $HOME/dotfiles/.config/nvim $HOME/.config
 ln -sfv $HOME/dotfiles/.config/powerline $HOME/.config
+ln -sfv $HOME/dotfiles/.czrc $HOME/.czrc

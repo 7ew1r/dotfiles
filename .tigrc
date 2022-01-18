@@ -1,0 +1,8 @@
+# main view の左端にコミットIDを表示する
+set main-view = id date author:email-user commit-title:graph=yes,refs=yes
+
+# commitizen を使用する
+bind status C !git cz
+
+# コミットID をコピーする
+bind main C !@git pbcopy %(commit)

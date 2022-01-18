@@ -85,4 +85,5 @@ unlink $HOME/.config/peco
 unlink $HOME/.config/fish
 unlink $HOME/.config/fisher
 unlink $HOME/.czrc
+unlink $HOME/.tigrc
 ```
